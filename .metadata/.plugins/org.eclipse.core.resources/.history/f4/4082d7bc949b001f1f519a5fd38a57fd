@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Accueil Tuteur</title>
+    <h:outputStylesheet library="css" name="styles.css" />
+</h:head>
+<h:body>
+    <h:form>
+        <h:panelGrid columns="1" cellpadding="10">
+            <h:outputText value="Bienvenue, Tuteur !" styleClass="welcome-message" />
+            
+            <h:panelGrid columns="2" cellpadding="10">
+                <h:commandButton value="Voir les Étudiants" action="#" />
+                <h:commandButton value="Ajouter une Consultation" action="#" />
+            </h:panelGrid>
+            
+            <h:outputText value="Informations du Tuteur :" styleClass="section-title" />
+            <h:outputText value="Nom : Jean Dupont" />
+            <h:outputText value="Email : jean.dupont@example.com" />
+        </h:panelGrid>
+    </h:form>
+</h:body>
+</html>

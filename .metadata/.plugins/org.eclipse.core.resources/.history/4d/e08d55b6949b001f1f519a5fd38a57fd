@@ -1,0 +1,109 @@
+package bean;
+
+
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import config.EmailUtil;
+import config.PdfUtil;
+import entitee.Eleve;
+import entitee.Personne;
+import entitee.PersonneHome;
+import entitee.Role;
+import entitee.RoleHome;
+import entitee.Tuteur;
+import entitee.TuteurHome;
+import metier.Operation;
+
+@ManagedBean
+@RequestScoped
+public class TuteurBean {
+
+    Tuteur tuteur = new Tuteur();
+    Personne personne = new Personne();
+    
+    private Eleve selectedEleve;
+
+    public Eleve getSelectedEleve() {
+        return selectedEleve;
+    }
+
+    public void setSelectedEleve(Eleve selectedEleve) {
+        this.selectedEleve = selectedEleve;
+    }
+
+
+    public Tuteur getTuteur() {
+        return tuteur;
+    }
+
+    public void setTuteur(Tuteur tuteur) {
+        this.tuteur = tuteur;
+    }
+
+    public Personne getPersonne() {
+        return personne;
+    }
+
+    public void setPersonne(Personne personne) {
+        this.personne = personne;
+    }
+
+    PersonneHome personneHome = new PersonneHome();
+    TuteurHome tuteurHome = new TuteurHome();
+    Role role=new Role();
+    Operation operation=new Operation();
+
+    public String inscrire() {
+        try {
+        	 // Hacher le mot de passe avant de le persister
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode(personne.getPassword());
+            personne.setPassword(hashedPassword);
+        	
+        	role=operation.getRole("TUTEUR");
+        	personne.setRole(role);
+            // Persist the Personne entity
+            personneHome.persist(personne);
+            // Link the Tuteur entity with the Personne
+            tuteur.setPersonne(personne);
+            // Persist the Tuteur entity
+            tuteurHome.persist(tuteur);
+
+            // Créer un PDF en mémoire
+            String filePath = "C:\\Users\\dione\\Documents\\doc_pdf\\mail_tuteur.pdf"; // Chemin du fichier PDF à créer
+            String logoPath = "C:\\Users\\dione\\Documents\\doc_pdf\\ph.jpg";
+            PdfUtil.createPdf(filePath, personne, logoPath);
+            
+            // Envoi de l'email de confirmation d'inscription avec le PDF en pièce jointe
+            String to = personne.getEmail(); // Email du destinataire
+            String subject = "Inscription réussie avec pièce jointe";
+            String body = "Bonjour " + personne.getPrenom() + ",\n\n"
+                        + "Votre inscription en tant que tuteur est confirmée.\n"
+                        + "Merci de nous avoir rejoints ! Veuillez trouver ci-joint votre document PDF.";
+
+            // Envoi de l'email avec la pièce jointe PDF
+            EmailUtil.sendEmailWithAttachment(to, subject, body, filePath);
+
+            return "confirmation"; // Redirige vers la page de confirmation d'inscription
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; // En cas d'erreur, rester sur la même page
+        }
+    }
+    
+    public List<Eleve> getEleves() {
+        if (tuteur != null) {
+            return new ArrayList<>(tuteur.getEleves());
+        }
+        return Collections.emptyList();
+    }
+
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Activités Extra-Scolaires</title>
+    <h:outputStylesheet name="styles.css" />
+    <h:outputStylesheet library="primeicons" name="primeicons.css" />
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css" />
+</h:head>
+
+<h:body style="background-image: url('resources/images/bag3.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; background-color: rgba(0, 0, 0, 0.6); background-blend-mode: overlay;">
+    <!-- Header avec titre et bouton de retour -->
+    <header style="background-color: #8B4513; padding: 15px; color: white; display: flex; align-items: center; justify-content: space-between;">
+        <h2 style="margin: 0; display: flex; align-items: center;">
+            <i class="pi pi-calendar" style="font-size: 1.5em; margin-right: 10px;"></i>
+            Activités Extra-Scolaires
+        </h2>
+        <p:button value="Retour" outcome="bienvenue.xhtml" icon="pi pi-home" style="background-color: white; color: #8B4513; border: none; padding: 10px 15px; font-weight: bold; border-radius: 5px;" />
+    </header>
+
+    <!-- Conteneur principal pour afficher les activités -->
+    <div class="p-grid" style="margin-top: 50px;">
+        <div class="p-col-12" style="display: flex; justify-content: center;">
+            <h:form>
+                <p:panel header="Liste des Activités Extra-Scolaires" style="width: 90%; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); background-color: rgba(255, 255, 255, 0.9); padding: 20px;">
+                    <!-- Boucle pour afficher chaque activité -->
+                    <ui:repeat value="#{activiteBean.activitesExtra}" var="activite">
+                        <p:panel style="margin-bottom: 20px; background-color: #f5f5f5; border-radius: 5px; padding: 15px;">
+                            <h3 style="color: #8B4513;">#{activite.nom}</h3>
+                            <p style="color: #333;"><strong>Date :</strong> #{activite.dateActivite}</p>
+                            <p style="color: #333;"><strong>Heure :</strong> #{activite.heured} - #{activite.heuref}</p>
+                            <p style="color: #333;"><strong>Lieu :</strong> #{activite.lieux}</p>
+                            <p style="color: #333;"><strong>Description :</strong> #{activite.description}</p>
+                            <p style="color: #333;"><strong>Frais :</strong> #{activite.frais} €</p>
+                        </p:panel>
+                    </ui:repeat>
+                </p:panel>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>

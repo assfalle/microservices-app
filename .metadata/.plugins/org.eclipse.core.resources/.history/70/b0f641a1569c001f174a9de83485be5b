@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Recherche d'élèves</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .large-input {
+            height: 50px; /* Augmente la hauteur */
+            width: 100%; /* Largeur à 100% du parent */
+            font-size: 18px; /* Agrandit le texte */
+        }
+    </style>
+</h:head>
+<h:body>
+    <div class="container mt-4">
+        <h2>Recherche d'élèves</h2>
+        <h:form>
+            <!-- Formulaire de recherche -->
+            <div class="mb-3 row">
+                <label for="classe" class="col-sm-2 col-form-label">Sélectionner une classe :</label>
+                <div class="col-sm-10">
+                    <p:selectOneMenu id="classe" value="#{eleveBean.selectedClasse}" class="large-input">
+                        <f:selectItems value="#{eleveBean.classesList}" var="classe"
+                                       itemValue="#{classe.nom}" itemLabel="#{classe.nom}" />
+                    </p:selectOneMenu>
+                </div>
+            </div>
+
+            <div class="text-center mb-4">
+                <p:commandButton value="Rechercher" 
+                                 action="#{eleveBean.rechercherEleveClasse}" 
+                                 update="elevesTable" 
+                                 styleClass="btn btn-primary" />
+            </div>
+
+            <!-- Tableau des résultats -->
+            <p:dataTable id="elevesTable" value="#{eleveBean.eleveListe}" var="eleve" 
+                         style="width:100%; margin-top:20px;" class="table table-striped table-bordered">
+                <p:column headerText="Nom">
+                    <h:outputText value="#{eleve.personne.nom}" />
+                </p:column>
+                <p:column headerText="Prénom">
+                    <h:outputText value="#{eleve.personne.prenom}" />
+                </p:column>
+                <p:column headerText="Adresse">
+                    <h:outputText value="#{eleve.personne.adresse}" />
+                </p:column>
+                <p:column headerText="Classe">
+                    <h:outputText value="#{eleve.personne.nom}" />
+                </p:column>
+                <p:column headerText="Date de Naissance">
+                    <h:outputText value="#{eleve.personne.datenaissance}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Absent">
+                    <p:selectBooleanCheckbox value="#{eleve.estPresent}" />
+                </p:column>
+            </p:dataTable>
+
+            <div class="text-center mt-3">
+                <p:commandButton value="Envoyer" 
+                                 action="#{eleveBean.saveAppele}" 
+                                 styleClass="btn btn-success" />
+            </div>
+        </h:form>
+    </div>
+
+    <!-- Bootstrap JS et dépendances nécessaires -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</h:body>
+</html>

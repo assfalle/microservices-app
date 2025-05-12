@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Portail Professeur</title>
+    <h:outputStylesheet name="styles.css" />
+    <h:outputStylesheet library="primeicons" name="primeicons.css" />
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('resources/images/bg1.avif'); /* Remplacez par le chemin de votre image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: rgba(76, 175, 80, 0.9); /* Couleur avec opacité pour transparence */
+            padding: 10px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h2 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        header .pi {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        header .p-button {
+            background: transparent;
+            color: white;
+            border: none;
+            margin-right: 10px;
+        }
+
+        .portal-container {
+            max-width: 850px;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.8); /* Opacité pour lisibilité */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 2rem auto;
+        }
+
+        .portal-header {
+            font-size: 2rem;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #34495e;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .p-button {
+            flex: 1 1 45%;
+            padding: 0.8rem;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <!-- Header avec titre et icônes de navigation -->
+    <header>
+        <h2>
+            <i class="pi pi-user"></i>
+            Tableau de bord Professeur
+        </h2>
+        <div>
+            <p:commandButton icon="pi pi-home" value="Accueil" styleClass="p-button" action="bienvenue.xhtml" />
+            <p:commandButton icon="pi pi-bell" value="Notifications" styleClass="p-button" />
+            <p:commandButton icon="pi pi-sign-out" value="Déconnexion" action="#{userSessionBean.logout}" ajax="false" styleClass="p-button" />
+        </div>
+    </header>
+
+    <div class="p-d-flex p-jc-center p-mt-5">
+        <div class="portal-container">
+            <h1 class="portal-header">Portail Professeur</h1>
+
+            <h:form id="professorPortalForm">
+                <p:panel header="Bienvenue sur le Portail Professeur" style="width: 600px; margin: 50px auto; text-align: center;">
+                    <h2 style="color:#3b5998; margin-top:10px;">Bonjour, <h:outputText value="#{sessionScope.nomProf}" /></h2>
+
+                    <p:separator />
+
+                    <p:panelGrid columns="2" cellpadding="10" styleClass="dashboard">
+                        <!-- Lien pour programmer une évaluation -->
+                        <p:commandButton value="Programmer une évaluation" icon="pi pi-calendar"
+                                         action="progEvaluation.xhtml" 
+                                         update=":professorPortalForm" 
+                                         style="width: 100%;" />
+
+                        <!-- Lien pour voir la liste des évaluations -->
+                        <p:commandButton value="Voir la liste des évaluations" icon="pi pi-list"
+                                         action="listeEvaluation.xhtml" 
+                                         update=":professorPortalForm" 
+                                         style="width: 100%;" />
+
+                        <!-- Lien pour voir les informations des classes -->
+                        <p:commandButton value="Voir informations des classes" icon="pi pi-info-circle"
+                                         action="infosClasse.xhtml" 
+                                         update=":professorPortalForm" 
+                                         style="width: 100%;" />
+
+                        <!-- Lien pour voir les élèves par classe -->
+                        <p:commandButton value="Élèves par classe" icon="pi pi-users"
+                                         action="eleveClasse.xhtml" 
+                                         update=":professorPortalForm" 
+                                         style="width: 100%;" />
+
+                        <!-- Lien pour attribuer des notes -->
+                        <p:commandButton value="Attribuer des notes" icon="pi pi-pencil"
+                                         action="ajouterNote.xhtml" 
+                                         update=":professorPortalForm" 
+                                         style="width: 100%;" />
+
+                        <!-- Lien pour voir l'emploi du temps -->
+                        <p:commandButton value="Voir emploi du temps" icon="pi pi-calendar"
+                                         action="afficherEmploiDuTemps.xhtml" 
+                                         update=":professorPortalForm" 
+                                         style="width: 100%;" />
+                                         
+                         <p:commandButton value="Voir la liste des classes" icon="pi pi-users"
+                 action="listeClasses.xhtml"
+                 update=":professorPortalForm"
+                 style="width: 100%;" />
+                                         
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>

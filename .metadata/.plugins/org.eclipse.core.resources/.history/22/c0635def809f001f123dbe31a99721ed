@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Person List</title>
+    <h:outputStylesheet name="styles.css" />
+    <h:outputStylesheet library="primeicons" name="primeicons.css" />
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css" />
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('resources/images/bag3.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #8B4513;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header h2 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        header .pi {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        header .p-button {
+            background: transparent;
+            color: white;
+            border: none;
+            margin-right: 10px;
+        }
+        .portal-container {
+            max-width: 850px;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 2rem auto;
+        }
+        .portal-header {
+            font-size: 2rem;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .evaluation-card {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+        .evaluation-card h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        .evaluation-note {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        .evaluation-note input {
+            width: 50px;
+        }
+    </style>
+</h:head>
+
+<f:metadata>
+    <f:viewParam name="code" value="#{evaluationBean.ideval}" />
+    <f:viewAction action="#{evaluationBean.listerAssEleEval}" />
+</f:metadata>
+
+<h:body>
+    <!-- Header avec titre -->
+    <header>
+        <h2>
+            <i class="pi pi-list"></i>
+            Liste des Évaluations
+        </h2>
+    </header>
+
+    <div class="p-d-flex p-jc-center p-mt-5">
+        <div class="portal-container">
+            <h1 class="portal-header">Portail d'Évaluations des Élèves</h1>
+
+            <h:form id="form">
+                <p:messages autoUpdate="true" />
+
+                <!-- Suppression de la section de recherche -->
+                <!-- <h:panelGrid columns="2">
+                    <h:outputLabel value="Nom de la Classe : " />
+                    <p:inputText value="#{evaluationEleveBean.nomClasse}" />
+                </h:panelGrid>
+                <p:commandButton value="Rechercher" action="#{evaluationEleveBean.listerAssEleEval}" update="@form" /> -->
+
+                <h:panelGroup layout="block">
+                    <h2 class="portal-header">Notes des Élèves</h2>
+
+                    <!-- Utilisation d'une liste de cartes pour afficher chaque élève -->
+                    <ui:repeat value="#{evaluationBean.assoEleveEvaluations}" var="e">
+                        <div class="evaluation-card">
+                            <h3>#{e.eleve.personne.nom} #{e.eleve.personne.prenom}</h3>
+                            <div class="evaluation-note">
+                                <label for="noteInput">Note :</label>
+                                <p:inputText id="noteInput" value="#{e.note}" style="width:50px" />
+                            </div>
+                        </div>
+                    </ui:repeat>
+                </h:panelGroup>
+
+                <p:commandButton value="Sauvegarder"
+                                 action="#{evaluationEleveBean.sauvegarderNote}"
+                                 update="@form" />
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>

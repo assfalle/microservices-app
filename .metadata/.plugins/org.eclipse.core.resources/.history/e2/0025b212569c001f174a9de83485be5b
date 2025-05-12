@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Recherche des Classes</title>
+    <style>
+        .large-input {
+            height: 40px; /* Augmente la hauteur */
+            width: 100%; /* Largeur à 100% du parent */
+            font-size: 16px; /* Agrandit le texte */
+        }
+    </style>
+</h:head>
+<h:body>
+    <h2>Recherche de Classes</h2>
+
+    <div class="container mt-4 w-75">
+        <div class="card w-auto">
+            <div class="card-header bg-primary text-white">
+                <p>Formulaire de Recherche</p>
+            </div>
+            <div class="card-body">
+                <h:form>
+                    <!-- Formulaire de recherche -->
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Nom de la Classe : " />
+                        <p:inputText value="#{classeBean.nomClasse}" styleClass="large-input" />
+                    </h:panelGrid>
+
+                    <p:commandButton value="Rechercher" 
+                                     action="#{classeBean.rechercherClasse}" 
+                                     update="classesTable" styleClass="mt-3" />
+                </h:form>
+            </div>
+        </div>
+
+        <!-- Tableau des résultats -->
+        <p:dataTable id="classesTable" value="#{classeBean.classes}" var="classe" 
+                     style="width:100%; margin-top:20px;">
+            <p:column headerText="Nom">
+                <h:outputText value="#{classe.nom}" />
+            </p:column>
+            <p:column headerText="Niveau">
+                <h:outputText value="#{classe.niveau}" />
+            </p:column>
+            <p:column headerText="Effectif">
+                <h:outputText value="#{classe.effectif}" />
+            </p:column>
+            <p:column headerText="Mensualité">
+                <h:outputText value="#{classe.mensualite}" />
+            </p:column>
+            <p:column headerText="Frais d'Inscription">
+                <h:outputText value="#{classe.fraisInscription}" />
+            </p:column>
+        </p:dataTable>
+    </div>
+</h:body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<title>Person List</title>
+	<link rel="stylesheet"
+		href="https://unpkg.com/primeflex@latest/primeflex.css" />
+
+</h:head>
+<h:body>
+	<h:form id="busForm">
+		<p:panel header="connexion"
+			style="width: 500px;margin:  150px auto 0;">
+			<p:messages />
+			<h:panelGrid columns="1">
+				
+				<!-- Horaires -->
+				<p:outputLabel for="horaires" value="Horaires: " />
+				<p:inputText id="horaires"
+					value="#{busTransportBean.busTransport.horaires}" required="true" />
+
+				<!-- Itinéraire -->
+				<p:outputLabel for="itineraire" value="Itinéraire: " />
+				<p:inputText id="itineraire"
+					value="#{busTransportBean.busTransport.itineraire}" required="true" />
+
+				<!-- Prix -->
+				<p:outputLabel for="prix" value="Prix: " />
+				<p:inputText id="prix" value="#{busTransportBean.busTransport.prix}"
+					required="true" />
+
+				<!-- Sélection du chauffeur -->
+				<p:outputLabel for="personnel" value="Chauffeur: " />
+				
+				<p:selectOneMenu id="personnel" value="#{busTransportBean.chauffeurId}">
+							<f:selectItem itemLabel="Sélectionnez un chauffeur" itemValue="" />
+                            <f:selectItems value="#{busTransportBean.personnelList}"
+                                           var="personnel" itemValue="#{personnel.idPersonnel}" itemLabel="#{personnel.personne.nom}" />
+                        </p:selectOneMenu>
+				    <p:commandButton value="Enregistrer" action="#{busTransportBean.enregistrerBus}" update="busForm" />
+				
+
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+
+</h:body>
+</html>

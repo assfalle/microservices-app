@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Recherche d'élèves</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <h:outputStylesheet name="styles.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('resources/images/bg1.avif'); /* Remplacez par l'URL ou le chemin de votre image */
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: rgba(76, 175, 80, 0.8);
+            color: white;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card-header {
+            background-color: #2196f3;
+            color: white;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+        .btn-success {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-success:hover {
+            background-color: #45a049;
+            border-color: #45a049;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <!-- Header avec titre et icônes de navigation -->
+    <header>
+        <h2 style="margin: 0; display: flex; align-items: center;">
+            <i class="pi pi-search" style="font-size: 1.5em; margin-right: 10px;"></i>
+            Recherche d'Élèves
+        </h2>
+        <div>
+            <p:commandButton icon="pi pi-home" value="Accueil" style="margin-right: 10px; background: transparent; color: white; border: none;" />
+            <p:commandButton icon="pi pi-bell" value="Notifications" style="margin-right: 10px; background: transparent; color: white; border: none;" />
+            <p:commandButton icon="pi pi-sign-out" value="Déconnexion" action="#{tuteurBean.logout}" style="background: transparent; color: white; border: none;" />
+        </div>
+    </header>
+
+    <!-- Contenu principal -->
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>Rechercher un Élève par Classe</h5>
+            </div>
+            <div class="card-body">
+                <h:form>
+                    <h:panelGrid columns="2" styleClass="form-group">
+                        <p:outputLabel for="classe" value="Sélectionner une classe : " />
+                        <p:selectOneMenu id="classe" value="#{eleveBean.selectedClasse}" styleClass="form-control">
+                            <f:selectItems value="#{eleveBean.classesList}" var="classe"
+                                           itemValue="#{classe.nom}" itemLabel="#{classe.nom}" />
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+
+                    <p:commandButton value="Rechercher" action="#{eleveBean.rechercherEleveClasse}" update="elevesTable" styleClass="btn btn-success mt-3" />
+
+                    <!-- Tableau des résultats -->
+                    <p:dataTable id="elevesTable" value="#{eleveBean.eleveListe}" var="eleve" style="width:100%; margin-top:20px;">
+                        <p:column headerText="Nom">
+                            <h:outputText value="#{eleve.personne.nom}" />
+                        </p:column>
+                        <p:column headerText="Prénom">
+                            <h:outputText value="#{eleve.personne.prenom}" />
+                        </p:column>
+                        <p:column headerText="Adresse">
+                            <h:outputText value="#{eleve.personne.adresse}" />
+                        </p:column>
+                        <p:column headerText="Classe">
+                            <h:outputText value="#{eleve.personne.nom}" />
+                        </p:column>
+                        <p:column headerText="Date de Naissance">
+                            <h:outputText value="#{eleve.personne.datenaissance}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Absent">
+                            <p:selectBooleanCheckbox value="#{eleve.estPresent}" />
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:commandButton value="Envoyer" action="#{eleveBean.saveAppele}" styleClass="btn btn-success mt-3" />
+                </h:form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</h:body>
+</html>

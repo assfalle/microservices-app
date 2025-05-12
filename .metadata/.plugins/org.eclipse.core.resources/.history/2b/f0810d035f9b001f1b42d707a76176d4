@@ -1,0 +1,235 @@
+package bean;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.application.FacesMessage;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import config.EmailUtil;
+import config.PdfUtil;
+import entitee.Absence;
+import entitee.AbsenceHome;
+import entitee.AssoEleveEvaluation;
+import entitee.Classes;
+import entitee.ClassesHome;
+import entitee.Eleve;
+import entitee.EleveHome;
+import entitee.Personne;
+import entitee.PersonneHome;
+import entitee.Role;
+import metier.Operation;
+import entitee.Tuteur;
+import entitee.TuteurHome;
+
+@ManagedBean
+@RequestScoped
+public class EleveBean {
+    
+    private int selectedClasseId;
+    private String selectedClasse;
+
+    private List<Classes> classesList = new ArrayList<>();
+    private List<Eleve> eleveListe;
+    private String nom;
+    private String prenom;
+
+    // Attributs supplémentaires
+    private Personne personne; // Tuteur
+    private Tuteur tuteur;
+    private Role role1;
+    Classes classes = new Classes();
+    
+    // Instances des services pour accéder aux entités
+    private final Operation op = new Operation();
+    private final ClassesHome classesHome = new ClassesHome();
+    private final EleveHome eh = new EleveHome();
+    private final PersonneHome ph = new PersonneHome();
+    private final TuteurHome tuteurHome = new TuteurHome();
+    
+    private Eleve e = new Eleve();
+    private Personne p = new Personne();
+    private Role role;
+
+    @PostConstruct
+    private void init() {
+        try {
+            String role = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("role");
+            
+            if ("PRINCIPAL".equals(role)) {
+                classesList = op.listeClasseByCycle("moyen");
+            } else if ("DIRECTEUR".equals(role)) {
+                classesList = op.listeClasseByCycle("elementaire");
+            } else {
+                classesList = op.listeClasse();
+            }
+
+            if (!classesList.isEmpty()) {
+                eleveListe = op.listeEleveClasse(classesList.get(0).getNom());
+            }
+            
+            System.out.println("Classes loaded: " + classesList.size());
+           
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String inscrire() {
+        try {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode(p.getPassword());
+            String hashedPassword1 = passwordEncoder.encode(personne.getPassword());
+            p.setPassword(hashedPassword);
+            personne.setPassword(hashedPassword1);
+            
+            classes = classesHome.findById(selectedClasseId);
+            classes.getEleves().add(e);
+            classes.setEffectif(classes.getEffectif() + 1);
+            e.setClasses(classes);
+            role = op.getRole("eleve");
+            role1 = op.getRole("tuteur");
+            p.setRole(role);
+            personne.setRole(role1);
+
+            ph.persist(personne);
+            ph.persist(p);
+            tuteur.setPersonne(personne);
+            tuteurHome.persist(tuteur);
+            e.setTuteur(tuteur);
+            e.setPersonne(p);
+            e.setNbAbsences(0);
+            eh.persist(e);
+
+            classes.getEleves().add(e);
+            classesHome.merge(classes);
+
+            String filePath = "C:\\Users\\dione\\Documents\\doc_pdf\\mail_eleve.pdf";
+            String logoPath = "C:\\Users\\dione\\Documents\\doc_pdf\\ph.jpg";
+            PdfUtil.createPdf(filePath, p, logoPath);
+
+            String to = p.getEmail();
+            String subject = "Inscription réussie avec pièce jointe";
+            String body = "Bonjour " + p.getPrenom() + ",\n\n"
+                        + "Votre inscription à l'école est confirmée.\n"
+                        + "Merci de nous avoir rejoints ! Veuillez trouver ci-joint votre document PDF.";
+
+            EmailUtil.sendEmailWithAttachment(to, subject, body, filePath);
+
+            return "confirmation";  
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public void chargerEleve() {
+        e = eh.findById(selectedClasseId);
+    }
+    
+    public void rechercherEleve() {
+        eleveListe = op.RechercheEleve(nom, prenom);
+    }
+    
+    public void rechercherEleveClasse() {
+        eleveListe = op.listeEleveClasse(selectedClasse);
+    }
+    
+    public void saveAppele() {
+        System.out.println(eleveListe.size());
+        AbsenceHome absenceHome = new AbsenceHome();
+        for (Eleve eleve : eleveListe) {
+            System.out.println(eleve.isEstPresent());
+            if (!eleve.isEstPresent()) {
+                Absence absence = new Absence();
+                absence.setDate(new Date());
+                absence.setEleve(eleve);
+                absence.setHeured(new Date());
+                absence.setHeuref(new Date());
+                absence.setJustificatiion(null);
+                
+                absenceHome.persist(absence);
+            }
+        }
+    }
+
+    // Getters et setters pour les attributs du bean
+
+    public int getSelectedClasseId() {
+        return selectedClasseId;
+    }
+
+    public void setSelectedClasseId(int selectedClasseId) {
+        this.selectedClasseId = selectedClasseId;
+    }
+
+    public List<Classes> getClassesList() {
+        return classesList;
+    }
+
+    public void setClassesList(List<Classes> classesList) {
+        this.classesList = classesList;
+    }
+
+    public Classes getClasses() {
+        return classes;
+    }
+
+    public void setClasses(Classes classes) {
+        this.classes = classes;
+    }
+
+    public String getSelectedClasse() {
+        return selectedClasse;
+    }
+
+    public void setSelectedClasse(String selectedClasse) {
+        this.selectedClasse = selectedClasse;
+    }
+
+    public List<Eleve> getEleveListe() {
+        return eleveListe;
+    }
+
+    public void setEleveListe(List<Eleve> eleveListe) {
+        this.eleveListe = eleveListe;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public Eleve getE() {
+        return e;
+    }
+
+    public void setE(Eleve e) {
+        this.e = e;
+    }
+
+    public Personne getP() {
+        return p;
+    }
+
+    public void setP(Personne p) {
+        this.p = p;
+    }
+}

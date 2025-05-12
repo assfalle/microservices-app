@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Détails de l'élève</title>
+    <h:outputStylesheet name="styles.css" />
+</h:head>
+
+<h:body>
+    <h:form id="eleveDetailsForm">
+        <h3>Détails de l'élève</h3>
+        <h:outputText value="Nom de l'élève : #{sessionScope.selectedEleve.personne.nom}" />
+        <br />
+        <h:outputText value="Prénom de l'élève : #{sessionScope.selectedEleve.personne.prenom}" />
+        <br />
+        <h:outputText value="Nombre d'absences : #{sessionScope.selectedEleve.nbAbsences}" />
+        
+        <!-- Section d'informations supplémentaires sur l'élève -->
+        <p:panelGrid columns="2" styleClass="custom-panelgrid" style="margin-top:30px;">
+            <p:panel header="Nombre d'absences" styleClass="custom-panel" style="text-align:center;">
+                <h:outputText value="#{sessionScope.selectedEleve.nbAbsences}" style="font-size:24px; color:#ff0000;" />
+            </p:panel>
+            <p:panel header="Moyenne générale" styleClass="custom-panel" style="text-align:center;">
+                <h:outputText value="15.4" style="font-size:24px; color:#28a745;" />
+            </p:panel>
+        </p:panelGrid>
+
+        <!-- Retour au tableau de bord -->
+        <p:commandButton value="Retour" action="tuteur_home?faces-redirect=true" />
+    </h:form>
+</h:body>
+</html>

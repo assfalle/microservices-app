@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Person List</title>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+    
+    <style>
+        /* Application du fond avec une transparence élevée */
+        body {
+            background-image: url('/resources/images/education.jfif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.05; /* Transparence très élevée de l'image de fond */
+        }
+        
+        /* Centrer le formulaire et améliorer l'apparence */
+        .login-panel {
+            width: 500px;
+            margin: 150px auto 0;
+            background-color: rgba(255, 255, 255, 0.8); /* Fond légèrement opaque pour une meilleure lisibilité */
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .text-5xl {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Personnalisation des champs de saisie et des boutons */
+        .ui-inputtext {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .ui-commandbutton {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .ui-commandbutton:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:panel header="Connexion" styleClass="login-panel">
+            <p:messages />
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Login:" class="text-5xl" />
+                <p:inputText value="#{personneBean.personne.login}" />
+                
+                <p:outputLabel value="Mot de passe:" />
+                <p:inputText value="#{personneBean.personne.password}" />
+                
+                <p:commandButton value="Soumettre" action="#{personneBean.connexion}" />
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+</h:body>
+</html>

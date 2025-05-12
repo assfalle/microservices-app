@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Inscription</title>
+    <h:outputStylesheet name="styles.css" /> <!-- Assurez-vous d'avoir ce fichier pour des styles personnalisés -->
+</h:head>
+<h:body>
+    <h:form>
+        <p:panel header="Inscription de l'élève" style="width: 500px; margin: 150px auto 0;">
+            <p:messages />
+            <p:panelGrid columns="2" cellpadding="5">
+                <!-- Information de l'élève -->
+                <p:outputLabel value="Prénom :" for="prenom" />
+                <p:inputText id="nom" value="#{eleveBean.p.prenom}" styleClass="input-field" />
+
+                <p:outputLabel value="Prénom :" for="prenom" />
+                <p:inputText id="prenom" value="#{eleveBean.p.prenom}" styleClass="input-field" />
+
+                <p:outputLabel value="Email :" for="email" />
+                <p:inputText id="email" value="#{eleveBean.p.email}" styleClass="input-field" />
+
+                <p:outputLabel value="Adresse :" for="adresse" />
+                <p:inputText id="adresse" value="#{eleveBean.p.adresse}" styleClass="input-field" />
+
+                <p:outputLabel value="Téléphone :" for="telephone" />
+                <p:inputText id="telephone" value="#{eleveBean.p.telephone}" styleClass="input-field" />
+
+                <p:outputLabel value="Login :" for="login" />
+                <p:inputText id="login" value="#{eleveBean.p.login}" styleClass="input-field" />
+
+                <p:outputLabel value="Mot de passe :" for="password" />
+                <p:password id="password" value="#{eleveBean.p.password}" styleClass="input-field" />
+
+                <p:outputLabel value="Date de naissance :" for="datenaissance" />
+                <p:calendar id="datenaissance" value="#{eleveBean.p.datenaissance}"
+                             pattern="dd/MM/yyyy" showButtonPanel="true" />
+
+                <p:outputLabel value="Classe :" for="classes" />
+                <p:selectOneMenu id="classes" value="#{eleveBean.selectedClasseId}">
+                    <f:selectItems value="#{eleveBean.classesList}"
+                                   var="classe" itemValue="#{classe.idclasse}"
+                                   itemLabel="#{classe.nom}" />
+                </p:selectOneMenu>
+            </p:panelGrid>
+        </p:panel>
+
+        <p:panel header="Information du tuteur" style="width: 500px; margin: 20px auto 0;">
+            <p:panelGrid columns="2" cellpadding="5">
+                <p:outputLabel value="Nom du tuteur :" for="nomTuteur" />
+                <p:inputText id="nomTuteur" value="#{eleveBean.tuteur.personne.nom}" styleClass="input-field" />
+
+                <p:outputLabel value="Prénom du tuteur :" for="prenomTuteur" />
+                <p:inputText id="prenomTuteur" value="#{eleveBean.tuteur.personne.prenom}" styleClass="input-field" />
+
+                <p:outputLabel value="Relation avec l'élève :" for="relation" />
+                <p:inputText id="relation" value="#{eleveBean.tuteur.relation}" styleClass="input-field" />
+            </p:panelGrid>
+        </p:panel>
+
+        <!-- Bouton de soumission -->
+        <p:commandButton value="S'inscrire" action="#{eleveBean.inscrire}" />
+    </h:form>
+
+    <style>
+        .input-field {
+            width: 100%; /* Assurez-vous que tous les champs sont suffisamment larges */
+            box-sizing: border-box; /* Pour un meilleur contrôle des dimensions */
+        }
+    </style>
+</h:body>
+</html>

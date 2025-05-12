@@ -1,0 +1,207 @@
+package bean;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+import org.hibernate.Hibernate;
+
+import entitee.AssoEleveEvaluation;
+import entitee.AssoEleveEvaluationHome;
+import entitee.Classes;
+import entitee.ClassesHome;
+import entitee.Cours;
+import entitee.CoursHome;
+import entitee.Eleve;
+import entitee.Evaluation;
+import entitee.EvaluationHome;
+import entitee.Professeur;
+import entitee.ProfesseurHome;
+import metier.Operation;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
+
+
+
+@ManagedBean
+@SessionScoped
+public class EvaluationBean {
+
+   
+	Evaluation evaluation=new Evaluation();
+	int selectedCoursId;
+	private int selectedClasseId; // ID de la classe sélectionnée
+	private List<Classes> classesList=new ArrayList<Classes>();
+    private List<Cours> coursList=new ArrayList<Cours>();
+    List<Evaluation> evaluations=new ArrayList<Evaluation>();
+    Operation op=new Operation();
+	Cours cours=new Cours();
+	String nomClasse;
+	Classes classes=new Classes();
+	EvaluationHome evaluationHome=new EvaluationHome();
+	 private int professeurId;
+	
+	@PostConstruct
+    private void init() {
+        try {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+            professeurId = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("professeurId");
+            // Vérifier si l'utilisateur est un élève
+            String role = (String) session.getAttribute("role");
+            if ("ELEVE".equals(role)) {
+                // Récupérer la classe de l'élève depuis la session
+                List<Classes> classesEleve = (List<Classes>) session.getAttribute("classesEleve");
+                if (classesEleve != null && !classesEleve.isEmpty()) {
+                    // Utiliser la première classe de la liste si l'élève est associé à une seule classe
+                    this.nomClasse = classesEleve.get(0).getNom();
+                    this.evaluations = op.listeEvaluation(this.nomClasse);
+                }
+            }
+
+            // Récupérer la matière spécifique depuis la session
+            String matiereEnseignee = (String) session.getAttribute("matiere");
+
+            // Vérifier la présence de la matière en session
+            if (matiereEnseignee != null) {
+                // Si la matière est définie, filtrer les cours en fonction de cette matière
+                coursList = op.listeCours().stream()
+                        .filter(cours -> cours.getMatiere().equals(matiereEnseignee))
+                        .collect(Collectors.toList());
+                System.out.println("Matière trouvée en session : " + matiereEnseignee);
+            } else {
+                // Si aucune matière en session, charger tous les cours
+                coursList = op.listeCours();
+                System.out.println("Aucune matière spécifique en session, chargement de tous les cours.");
+            }
+
+            // Charger toutes les classes disponibles
+            classesList = op.listeClasse();
+
+            System.out.println("Cours loaded: " + coursList.size());
+            System.out.println("Classes loaded: " + classesList.size());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+	public Evaluation getEvaluation() {
+		return evaluation;
+	}
+	public void setEvaluation(Evaluation evaluation) {
+		this.evaluation = evaluation;
+	}
+	public int getSelectedCoursId() {
+		return selectedCoursId;
+	}
+	public void setSelectedCoursId(int selectedCoursId) {
+		this.selectedCoursId = selectedCoursId;
+	}
+	CoursHome coursHome=new CoursHome();
+
+	public List<Cours> getCoursList() {
+		return coursList;
+	}
+	public void setCoursList(List<Cours> coursList) {
+		this.coursList = coursList;
+	}
+	ClassesHome classesHome=new ClassesHome();
+	AssoEleveEvaluationHome assoEleveEvaluationHome=new AssoEleveEvaluationHome();
+	
+	public String saveEvaluation() {
+	    try {
+	        // Récupération du cours et de la classe
+	        cours = coursHome.findById(selectedCoursId);
+	        classes = classesHome.findById(selectedClasseId);
+	        
+	        if (cours == null || classes == null) {
+	            // Gérer l'erreur si le cours ou la classe n'existe pas
+	            return "erreur";
+	        }
+
+	        // Associe l'évaluation au cours et à la classe
+	        evaluation.setClasse(classes);
+	        evaluation.setCours(cours);
+
+	        // Associe l'ID du professeur récupéré en session à l'évaluation
+	        Professeur professeur = op.getProfesseur(professeurId);
+	        evaluation.setProfesseur(professeur);
+
+	        // Persiste l'évaluation
+	        evaluationHome.persist(evaluation);
+	        
+	        // Récupère la liste des élèves de la classe
+	        List<Eleve> eleves = op.listeEleveClasse(classes.getNom()); // Remplacez par la méthode correcte
+	        
+	        // Crée une association pour chaque élève
+	        for (Eleve eleve : eleves) {
+	            AssoEleveEvaluation assoEleveEvaluation = new AssoEleveEvaluation();
+	            assoEleveEvaluation.setEvaluation(evaluation); // Associe l'évaluation
+	            assoEleveEvaluation.setEleve(eleve); // Associe l'élève
+	            assoEleveEvaluation.setNote(-1f); // Note par défaut
+	            assoEleveEvaluationHome.persist(assoEleveEvaluation); // Persiste l'association
+	        }
+
+	        return "confirmation"; // Redirige vers une page de confirmation
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "erreur"; // Redirige vers une page d'erreur en cas de problème
+	    }
+	}
+
+
+	public String listeEvaluation() {
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+	    HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+	    String role = (String) session.getAttribute("role");
+
+	    if (!"ELEVE".equals(role)) {
+	        // Charger les évaluations de la classe recherchée
+	        evaluations = op.listeEvaluation(nomClasse);
+	    }
+	    return "listeEvaluation?faces-redirect=true";
+	}
+	public int getSelectedClasseId() {
+		return selectedClasseId;
+	}
+	public void setSelectedClasseId(int selectedClasseId) {
+		this.selectedClasseId = selectedClasseId;
+	}
+	public List<Classes> getClassesList() {
+		return classesList;
+	}
+	public void setClassesList(List<Classes> classesList) {
+		this.classesList = classesList;
+	}
+	public List<Evaluation> getEvaluations() {
+		return evaluations;
+	}
+	public void setEvaluations(List<Evaluation> evaluations) {
+		this.evaluations = evaluations;
+	}
+	public String getNomClasse() {
+		return nomClasse;
+	}
+	public void setNomClasse(String nomClasse) {
+		this.nomClasse = nomClasse;
+	}
+	
+	 // Getter et setter pour professeurId
+    public int getProfesseurId() {
+        return professeurId;
+    }
+
+    public void setProfesseurId(int professeurId) {
+        this.professeurId = professeurId;
+    }
+	
+	
+	
+   
+}

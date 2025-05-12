@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Ajouter Consultation Infirmerie</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css" />
+    <style>
+        body {
+            background-image: url('resources/images/bg1.avif'); /* Chemin vers l'image de fond */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: rgba(40, 167, 69, 0.9); /* Vert avec opacité */
+            padding: 10px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header h2 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        header .pi {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        .card {
+            transition: transform 0.3s;
+            background-color: rgba(255, 255, 255, 0.9); /* Opacité pour lisibilité */
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .container {
+            margin-top: 5rem;
+        }
+        .p-panel {
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .add-infirmerie-form {
+            margin: 0 auto;
+        }
+    </style>
+</h:head>
+
+<f:metadata>
+    <f:viewParam name="code3" value="#{infirmerieBean.eleveId}" />
+</f:metadata>
+
+<h:body>
+    <!-- En-tête de la page -->
+    <header>
+        <h2>
+            <i class="pi pi-stethoscope"></i>
+            Ajouter Consultation Infirmerie
+        </h2>
+    </header>
+
+    <div class="container">
+        <h:form>
+            <p:panel header="Ajouter Consultation" style="width: 500px;margin: 150px auto 0;">
+                <!-- Formulaire pour ajouter une nouvelle consultation -->
+                <p:panelGrid columns="1" styleClass="add-infirmerie-form">
+                    <!-- Date de la visite -->
+                    <h:outputLabel for="dateVisite" value="Date de la visite :" />
+                    <p:calendar id="dateVisite" value="#{infirmerieBean.infirmerie.dateVisite}" pattern="dd/MM/yyyy" showButtonPanel="true" />
+
+                    <!-- Motif de la visite -->
+                    <h:outputLabel for="motifVisite" value="Motif de la visite :" />
+                    <p:inputText id="motifVisite" value="#{infirmerieBean.infirmerie.motifvisite}" />
+
+                    <!-- Diagnostic -->
+                    <h:outputLabel for="diagnostic" value="Diagnostic :" />
+                    <p:inputTextarea id="diagnostic" value="#{infirmerieBean.infirmerie.diagnostic}" rows="3" cols="40" />
+
+                    <!-- Médicaments administrés -->
+                    <h:outputLabel for="medicaments" value="Médicaments administrés :" />
+                    <p:inputTextarea id="medicaments" value="#{infirmerieBean.infirmerie.medicamentsAdministres}" rows="3" cols="40" />
+
+                    <!-- Bouton de soumission -->
+                    <p:commandButton value="Ajouter Consultation" action="#{infirmerieBean.ajouterConsultation}" update="messages" />
+
+                    <!-- Messages de validation / erreur -->
+                    <p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" />
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+    </div>
+
+    <!-- Scripts Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</h:body>
+
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Portail Surveillant</title>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css" />
+    <style>
+        /* Styles généraux */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Conteneur du portail */
+        .portal-container {
+            max-width: 900px;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+        }
+
+        /* Titre du portail */
+        .portal-header {
+            font-size: 2rem;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Titre des sections */
+        .section-title {
+            font-size: 1.5rem;
+            color: #34495e;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+
+        /* Style pour les groupes de boutons */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Style des boutons */
+        .p-button {
+            flex: 1 1 45%;
+            padding: 0.8rem;
+        }
+
+        /* Style pour les boutons désactivés */
+        .p-button-help {
+            background-color: #e1e1e1;
+            color: #888;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <!-- Conteneur principal du portail -->
+    <div class="p-d-flex p-jc-center p-mt-5">
+        <div class="portal-container">
+            <h1 class="portal-header">Portail Surveillant</h1>
+
+            <h:form id="portalForm">
+                
+                <!-- Section pour la gestion des absences -->
+                <div class="section-title">Gestion des absences</div>
+                <div class="button-group">
+                    <p:commandButton value="Gérer les absences" 
+                                     action="gererAbsences.xhtml" 
+                                     styleClass="p-button-rounded p-button-info" 
+                                     icon="pi pi-user-edit" />
+                    <p:commandButton value="Rechercher élève" 
+                                     action="#{portalBean.tracerRole}" 
+                                     oncomplete="window.location='afficherEleve.xhtml'" 
+                                     styleClass="p-button-rounded p-button-info" 
+                                     icon="pi pi-search" />
+                </div>
+
+                <!-- Section pour la gestion des cours et classes -->
+                <div class="section-title">Gestion des cours et des classes</div>
+                <div class="button-group">
+                    <p:commandButton value="Programmer un cours" 
+                                     action="progCours.xhtml" 
+                                     styleClass="p-button-rounded p-button-secondary" 
+                                     icon="pi pi-calendar-plus" />
+                    <p:commandButton value="Afficher emploi du temps" 
+                                     action="afficherEmploiDuTemps.xhtml" 
+                                     styleClass="p-button-rounded p-button-secondary" 
+                                     icon="pi pi-calendar" />
+                    <p:commandButton value="Ajouter un cours" 
+                                     action="ajouterCours.xhtml" 
+                                     styleClass="p-button-rounded p-button-secondary" 
+                                     icon="pi pi-book" />
+                    <p:commandButton value="Ajouter une classe" 
+                                     action="ajouterClasse.xhtml" 
+                                     styleClass="p-button-rounded p-button-secondary" 
+                                     icon="pi pi-users" />
+                    <p:commandButton value="Information de classe" 
+                                     action="infosClasse.xhtml" 
+                                     styleClass="p-button-rounded p-button-secondary" 
+                                     icon="pi pi-info-circle" />
+                    <p:commandButton value="Élève par classe" 
+                                     action="#{portalBean.tracerRole}" 
+                                     oncomplete="window.location='eleveClasse.xhtml'" 
+                                     styleClass="p-button-rounded p-button-secondary" 
+                                     icon="pi pi-users" />
+                </div>
+
+                <!-- Section pour les fonctionnalités futures -->
+                <div class="section-title">Fonctionnalités futures</div>
+                <div class="button-group">
+                    <p:commandButton value="Fonctionnalité A" 
+                                     action="#" 
+                                     styleClass="p-button-rounded p-button-help" 
+                                     icon="pi pi-cog" disabled="true" />
+                    <p:commandButton value="Fonctionnalité B" 
+                                     action="#" 
+                                     styleClass="p-button-rounded p-button-help" 
+                                     icon="pi pi-cog" disabled="true" />
+                    <p:commandButton value="Fonctionnalité C" 
+                                     action="#" 
+                                     styleClass="p-button-rounded p-button-help" 
+                                     icon="pi pi-cog" disabled="true" />
+                </div>
+
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>

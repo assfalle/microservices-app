@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Recherche d'élèves</title>
+</h:head>
+<h:body style="background-image: url('resources/images/bg1.avif'); background-size: cover; background-repeat: no-repeat;">
+    
+    <!-- Header -->
+    <header style="display: flex; justify-content: space-between; align-items: center; background-color: #333; color: white; padding: 10px;">
+        <h2 style="margin: 0; display: flex; align-items: center;">
+            <i class="pi pi-calendar" style="font-size: 1.5em; margin-right: 10px;"></i>
+            Programmer un Cours
+        </h2>
+        <div>
+            <p:commandButton icon="pi pi-home" value="Accueil" style="margin-right: 10px; background: transparent; color: white; border: none;" />
+            <p:commandButton icon="pi pi-bell" value="Notifications" style="margin-right: 10px; background: transparent; color: white; border: none;" />
+            <p:commandButton icon="pi pi-sign-out" value="Déconnexion" action="#{tuteurBean.logout}" style="background: transparent; color: white; border: none;" />
+        </div>
+    </header>
+
+    <!-- Formulaire de sélection de classe -->
+    <h:form>
+        <h:panelGrid columns="2">
+            <p:outputLabel for="classe" value="Sélectionner une classe : " />
+            <p:selectOneMenu id="classe" value="#{eleveBean.selectedClasse}">
+                <f:selectItems value="#{eleveBean.classesList}" var="classe"
+                               itemValue="#{classe.nom}" itemLabel="#{classe.nom}" />
+            </p:selectOneMenu>
+        </h:panelGrid>
+
+        <p:commandButton value="Rechercher"
+                         action="#{eleveBean.rechercherEleveClasse}" update="elevesTable" />
+
+        <!-- Tableau des résultats -->
+        <p:dataTable id="elevesTable" value="#{eleveBean.eleveListe}"
+                     var="eleve" style="width:100%; margin-top:20px;">
+            <p:column headerText="Nom">
+                <h:outputText value="#{eleve.personne.nom}" />
+            </p:column>
+            
+            <p:column headerText="Prénom">
+                <h:outputText value="#{eleve.personne.prenom}" />
+            </p:column>
+            <p:column headerText="Adresse">
+                <h:outputText value="#{eleve.personne.adresse}" />
+            </p:column>
+            <p:column headerText="Classe">
+                <h:outputText value="#{eleve.personne.nom}" />
+            </p:column>
+
+            <p:column headerText="Date de Naissance">
+                <h:outputText value="#{eleve.personne.datenaissance}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Absent">
+                <!-- Case à cocher pour marquer un élève comme absent -->
+                <p:selectBooleanCheckbox value="#{eleve.estPresent}" />
+            </p:column>
+        </p:dataTable>
+
+        <p:commandButton value="Envoyer" action="#{eleveBean.saveAppele}" />
+    </h:form>
+</h:body>
+</html>

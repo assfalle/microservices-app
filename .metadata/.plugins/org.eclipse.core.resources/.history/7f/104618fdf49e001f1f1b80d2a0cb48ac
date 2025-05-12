@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accueil - École</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM5oLC+H2Tz8a0a" crossorigin="anonymous">
+    <style>
+        /* Styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f7f9fc;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1.2px;
+        }
+        .nav .btn {
+            background-color: #fff;
+            color: #007bff;
+            border: none;
+            padding: 8px 16px;
+            margin-left: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .nav .btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Carousel */
+        .carousel {
+            max-width: 100%;
+            position: relative;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+        }
+
+        /* Section de description améliorée */
+        .description {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 40px auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .description h2 {
+            font-size: 32px;
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 24px;
+        }
+        .description p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            text-align: justify;
+            color: #555;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+ 
+    <header class="header">
+        <h1 class="logo">École</h1>
+        <nav class="nav">
+            <h:button value="Connexion" outcome="connexion.xhtml" styleClass="btn" />
+            <h:button value="Inscription" outcome="choixInscription.xhtml" styleClass="btn" />
+        </nav>
+    </header>
+
+    <section class="carousel">
+        <p:carousel style="width: 100%; height: 450px;">
+            <h:graphicImage library="images" name="education.jfif" alt="Image de l'école 1" style="width: 100%; height: 450px;"/>
+            <h:graphicImage library="images" name="ministere.jfif" alt="Image de l'école 2" style="width: 100%; height: 450px;"/>
+            <h:graphicImage library="images" name="niit.jfif" alt="Image de l'école 3" style="width: 100%; height: 450px;"/>
+            <h:graphicImage library="images" name="cours.jpg" alt="Image de l'école 4" style="width: 100%; height: 450px;"/>
+            <h:graphicImage library="images" name="school.png" alt="Image de l'école 5" style="width: 100%; height: 450px;"/>
+        </p:carousel>
+    </section>
+
+    <!-- Section de description de l'école -->
+    <section class="description">
+        <h2>Bienvenue à notre École</h2>
+        <p>Notre école s'engage à offrir une éducation de qualité, en combinant tradition et innovation pour former les leaders de demain.</p>
+        <p>Depuis notre fondation, nous avons mis en place des méthodes pédagogiques qui encouragent la pensée critique, la créativité, et la responsabilité sociale.</p>
+        <p>Nous proposons une vaste gamme de programmes éducatifs conçus pour répondre aux besoins d'une société en constante évolution. Nos enseignants sont dévoués et nos installations modernes permettent un apprentissage dans les meilleures conditions possibles.</p>
+        <p>Nous croyons en une éducation qui est accessible à tous et qui favorise le développement personnel aussi bien que professionnel. Rejoignez-nous pour découvrir un environnement où chaque étudiant est valorisé, et où chaque parcours est enrichissant et unique.</p>
+        <p>Notre mission est de préparer nos étudiants à être des citoyens responsables et des acteurs du changement dans le monde. Nous sommes fiers de la diversité de nos étudiants et de l'excellence de notre communauté éducative.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 École. Tous droits réservés.</p>
+        <p>Contactez-nous : info@ecole.sn</p>
+    </footer>
+</body>
+</html>

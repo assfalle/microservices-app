@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Ajouter Consultation Infirmerie</title>
+    <h:outputStylesheet name="styles.css" />
+    <h:outputStylesheet library="primeicons" name="primeicons.css" />
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('resources/images/bg1.avif');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .panel-header {
+            background-color: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 10px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-infirmerie-form {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .p-button {
+            background-color: rgba(76, 175, 80, 0.9);
+            color: white;
+            border: none;
+            margin-top: 1rem;
+        }
+
+        .p-calendar,
+        .p-inputtext,
+        .p-inputtextarea {
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        p:commandButton {
+            flex: 1 1 45%;
+            padding: 0.8rem;
+        }
+    </style>
+</h:head>
+
+<f:metadata>
+    <f:viewParam name="code3" value="#{infirmerieBean.eleveId}" />
+</f:metadata>
+
+<h:body>
+    <h:form>
+        <p:panel header="Ajouter une Consultation Infirmerie" styleClass="panel-header" style="width: 500px;margin:  150px auto 0;">
+            <p:panelGrid columns="1" styleClass="add-infirmerie-form">
+                <h:outputLabel for="dateVisite" value="Date de la visite :" />
+                <p:calendar id="dateVisite" value="#{infirmerieBean.infirmerie.dateVisite}" pattern="dd/MM/yyyy" showButtonPanel="true" />
+
+                <h:outputLabel for="motifVisite" value="Motif de la visite :" />
+                <p:inputText id="motifVisite" value="#{infirmerieBean.infirmerie.motifvisite}" />
+
+                <h:outputLabel for="diagnostic" value="Diagnostic :" />
+                <p:inputTextarea id="diagnostic" value="#{infirmerieBean.infirmerie.diagnostic}" rows="3" cols="40" />
+
+                <h:outputLabel for="medicaments" value="Médicaments administrés :" />
+                <p:inputTextarea id="medicaments" value="#{infirmerieBean.infirmerie.medicamentsAdministres}" rows="3" cols="40" />
+
+                <!-- Bouton de soumission -->
+                <p:commandButton value="Ajouter Consultation" action="#{infirmerieBean.ajouterConsultation}" update="messages" styleClass="p-button" />
+
+                <!-- Messages de validation / erreur -->
+                <p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" />
+            </p:panelGrid>
+        </p:panel>
+    </h:form>
+</h:body>
+
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Portail Professeur</title>
+    <h:outputStylesheet name="styles.css" />
+    <h:outputStylesheet library="primeicons" name="primeicons.css" />
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('resources/images/bg1.avif'); /* Remplacez par le chemin de votre image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: rgba(76, 175, 80, 0.9); /* Couleur avec opacité pour transparence */
+            padding: 10px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h2 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        header .pi {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        header .p-button {
+            background: transparent;
+            color: white;
+            border: none;
+            margin-right: 10px;
+        }
+
+        .portal-container {
+            max-width: 850px;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.8); /* Opacité pour lisibilité */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 2rem auto;
+        }
+
+        .portal-header {
+            font-size: 2rem;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #34495e;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .p-button {
+            flex: 1 1 45%;
+            padding: 0.8rem;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <!-- Header avec titre et icônes de navigation -->
+    <header>
+        <h2>
+            <i class="pi pi-user"></i>
+            Tableau de bord Professeur
+        </h2>
+        <div>
+            <p:commandButton icon="pi pi-home" value="Accueil" styleClass="p-button" />
+            <p:commandButton icon="pi pi-bell" value="Notifications" styleClass="p-button" />
+            <p:commandButton icon="pi pi-sign-out" value="Déconnexion" action="#{surveillantBean.logout}" styleClass="p-button" />
+        </div>
+    </header>
+
+    <div class="p-d-flex p-jc-center p-mt-5">
+        <div class="portal-container">
+            <h1 class="portal-header">Portail Professeur</h1>
+
+            <h:form id="professorPortalForm">
+                <p:panel header="Bienvenue sur le Portail Professeur" style="width: 600px; margin: 50px auto; text-align: center;">
+                    <h2>Bonjour, Prof. Dupont!</h2>
+
+                    <p:separator />
+
+                    <p:panelGrid columns="2" cellpadding="10" styleClass="dashboard">
+                        <!-- Lien pour inscrire un élève -->
+                        <p:commandButton value="Inscrire un élève" icon="pi pi-user-plus"
+                                         action="inscription.xhtml" 
+                                         update=":professorPortalForm" 
+                                         style="width: 100%;" />
+
+                        <!-- Lien pour gérer les évaluations -->
+                        <p:commandButton value="Programmer une évaluation" icon="pi pi-calendar"
+                                         action="#{portalBean.programmerEvaluation}" 
+                                         update=":professorPortalForm" 
+                                         style="width: 100%;" />
+
+                        <!-- Lien pour attribuer des notes -->
+                        <p:commandButton value="Attribuer des notes" icon="pi pi-pencil"
+                                         action="attributionNotes.xhtml" 
+                                         update=":professorPortalForm" 
+                                         style="width: 100%;" />
+
+                        <!-- Lien pour consulter la liste des élèves -->
+                        <p:commandButton value="Liste des élèves" icon="pi pi-users"
+                                         action="listeEleves.xhtml" 
+                                         update=":professorPortalForm" 
+                                         style="width: 100%;" />
+                        
+                        <!-- Lien pour consulter le profil du professeur -->
+                        <p:commandButton value="Mon profil" icon="pi pi-user"
+                                         action="profilProfesseur.xhtml" 
+                                         update=":professorPortalForm" 
+                                         style="width: 100%;" />
+
+                        <!-- Lien pour se déconnecter -->
+                        <p:commandButton value="Déconnexion" icon="pi pi-sign-out"
+                                         action="login.xhtml" 
+                                         style="width: 100%;" />
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Tableau de bord Élève</title>
+    <h:outputStylesheet name="styles.css" />
+</h:head>
+
+<h:body>
+    <!-- En-tête pour les élèves avec nom et photo -->
+    <h:form>
+        <p:panel header="Bienvenue sur votre tableau de bord" styleClass="custom-panel" style="text-align:center;">
+            <h:graphicImage name="images/kame.jpg" alt="Photo de profil de l'élève" style="width:100px; margin-bottom:10px;"/>
+            <!-- Affichage dynamique du nom de l'élève -->
+            <h2 style="color:#3b5998;">Bonjour, <h:outputText value="#{sessionScope.nomEleve}" /></h2>
+        </p:panel>
+
+        <!-- Section d'informations rapides sur l'élève avec des données génériques -->
+        <p:panelGrid columns="2" styleClass="custom-panelgrid" style="margin-top:30px;">
+            <p:panel header="Nombre d'absences" styleClass="custom-panel" style="text-align:center;">
+    <h:outputText value="#{sessionScope.nombreAbsences}" style="font-size:24px; color:#ff0000;" />
+</p:panel>
+
+            <p:panel header="Moyenne générale" styleClass="custom-panel" style="text-align:center;">
+                <h:outputText value="15.4" style="font-size:24px; color:#28a745;" />
+            </p:panel>
+        </p:panelGrid>
+
+        <!-- Boutons pour naviguer vers les évaluations, absences, etc. -->
+        <p:panelGrid columns="3" styleClass="custom-panelgrid" style="margin-top:20px;">
+            <p:commandButton 
+                value="Mes évaluations" 
+                icon="pi pi-file" 
+                action="#{portalBean.naviguerVersEvaluations()}" 
+                styleClass="custom-button" 
+            />
+            <p:commandButton 
+                value="Mon emploi du temps" 
+                icon="pi pi-times-circle" 
+                action="#{portalBean.naviguerVersEmploiDuTemps()}" 
+                styleClass="custom-button" 
+            />
+            <p:commandButton value="Mes résultats" icon="pi pi-chart-line" action="#" styleClass="custom-button" />
+        </p:panelGrid>
+    </h:form>
+</h:body>
+</html>

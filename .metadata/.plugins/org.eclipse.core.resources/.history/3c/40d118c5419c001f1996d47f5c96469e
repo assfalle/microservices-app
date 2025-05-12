@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Person List</title>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>                                          
+    <style>
+        /* Styles généraux */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5; /* Couleur de fond douce */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Style pour le panneau de connexion */
+        .login-panel {
+            width: 400px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-panel h2 {
+            text-align: center;
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Style des champs de saisie */
+        .input-field {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        /* Style du bouton */
+        .submit-button {
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Styles des libellés */
+        .label {
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:panel header="Connexion" styleClass="login-panel">
+            <h2>Connexion</h2>
+            <p:messages/>
+
+            <h:panelGrid columns="2" columnClasses="label, input-field" style="width: 100%;">
+                <p:outputLabel value="Login:" for="login" styleClass="label"/>
+                <p:inputText id="login" value="#{personneBean.personne.login}" styleClass="input-field"/>
+
+                <p:outputLabel value="Mot de passe:" for="password" styleClass="label"/>
+                <p:password id="password" value="#{personneBean.personne.password}" styleClass="input-field"/>
+
+                <!-- Bouton de soumission -->
+                <h:outputText/>
+                <p:commandButton value="Soumettre" action="#{personneBean.connexion}" styleClass="submit-button"/>
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+</h:body>
+</html>

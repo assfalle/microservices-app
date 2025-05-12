@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Ajouter Cours</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</h:head>
+
+<h:body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>Ajouter un Cours à une Classe</h5>
+            </div>
+            <div class="card-body">
+                <h:form id="form">
+                    <h:panelGrid columns="1" styleClass="form-group">
+
+                        <!-- Sélecteur de classe -->
+                        <p:outputLabel for="classes" value="Sélectionner une classe : " />
+                        <p:selectOneMenu id="classes" value="#{assoClasseCoursBean.selectedClasseId}" 
+                                         styleClass="form-control">
+                            <f:selectItems value="#{assoClasseCoursBean.classesList}" 
+                                           var="classe" itemValue="#{classe.idclasse}" itemLabel="#{classe.nom}" />
+                        </p:selectOneMenu>
+
+                        <!-- Sélecteur de cours -->
+                        <p:outputLabel for="cours" value="Sélectionner un cours : " />
+                        <p:selectOneMenu id="cours" value="#{assoClasseCoursBean.selectedCoursId}" 
+                                         styleClass="form-control">
+                            <f:selectItems value="#{assoClasseCoursBean.coursList}" 
+                                           var="cours" itemValue="#{cours.idCours}" itemLabel="#{cours.matiere}" />
+                        </p:selectOneMenu>
+
+                        <!-- Sélecteur de salle -->
+                        <p:outputLabel for="salle" value="Sélectionner une salle : " />
+                        <p:selectOneMenu id="salle" value="#{assoClasseCoursBean.selectedSalleId}" 
+                                         styleClass="form-control">
+                            <f:selectItems value="#{assoClasseCoursBean.salleList}" 
+                                           var="salle" itemValue="#{salle.idSalle}" itemLabel="#{salle.nom}" />
+                        </p:selectOneMenu>
+
+                        <!-- Sélecteur de professeur -->
+                        <p:outputLabel for="prof" value="Sélectionner un professeur : " />
+                        <p:selectOneMenu id="prof" value="#{assoClasseCoursBean.selectedProfId}" 
+                                         styleClass="form-control">
+                            <f:selectItems value="#{assoClasseCoursBean.profList}" 
+                                           var="prof" itemValue="#{prof.idProfesseur}" itemLabel="#{prof.personne.nom}" />
+                        </p:selectOneMenu>
+
+                        <!-- Date du cours -->
+                        <p:outputLabel for="date" value="Date : " />
+                        <p:calendar id="date" value="#{assoClasseCoursBean.classeCours.date}" 
+                                    pattern="dd/MM/yyyy" showButtonPanel="true" styleClass="form-control" />
+
+                        <!-- Heure de début -->
+                        <p:outputLabel for="heured" value="Heure de Début : " />
+                        <p:calendar id="heured" value="#{assoClasseCoursBean.classeCours.heured}" 
+                                    pattern="HH:mm" timeOnly="true" styleClass="form-control" />
+
+                        <!-- Heure de fin -->
+                        <p:outputLabel for="heuref" value="Heure de Fin : " />
+                        <p:calendar id="heuref" value="#{assoClasseCoursBean.classeCours.heuref}" 
+                                    pattern="HH:mm" timeOnly="true" styleClass="form-control" />
+                    </h:panelGrid>
+
+                    <!-- Bouton Ajouter -->
+                    <p:commandButton value="Ajouter" 
+                                     action="#{assoClasseCoursBean.ajouterClasseCours}" 
+                                     update="form" 
+                                     styleClass="btn btn-success w-100 mt-3" />
+                </h:form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</h:body>
+</html>

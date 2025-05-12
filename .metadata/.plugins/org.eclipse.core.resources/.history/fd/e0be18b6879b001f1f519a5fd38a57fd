@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Tuteur et Élèves</title>
+</h:head>
+
+<h:body>
+    <h:form>
+
+        <!-- Champ pour entrer l'ID du tuteur -->
+        <h:panelGrid columns="2" cellpadding="5">
+            <h:outputLabel for="tuteurId" value="ID du Tuteur :" />
+            <h:inputText id="tuteurId" value="#{tuteurBean.tuteurId}" />
+
+            <h:outputLabel />
+            <p:commandButton value="Charger Tuteur" action="#{tuteurBean.loadTuteurEtEleves}" update="tuteurDetails, eleveList" />
+        </h:panelGrid>
+
+        <!-- Détails du Tuteur -->
+        <h:panelGrid id="tuteurDetails" columns="2" rendered="#{not empty tuteurBean.tuteur}" cellpadding="5" style="margin-top:20px">
+            <h:outputLabel value="Nom :" />
+            <h:outputText value="#{tuteurBean.tuteur.nom}" />
+
+            <h:outputLabel value="Prénom :" />
+            <h:outputText value="#{tuteurBean.tuteur.prenom}" />
+
+            <!-- Ajoutez d'autres champs si nécessaire -->
+        </h:panelGrid>
+
+        <!-- Liste des Élèves -->
+        <h:panelGroup id="eleveList">
+            <h:outputLabel value="Liste des Élèves :" rendered="#{not empty tuteurBean.eleves}" />
+            <p:dataTable value="#{tuteurBean.eleves}" var="eleve" rendered="#{not empty tuteurBean.eleves}" style="margin-top:20px">
+                <p:column headerText="Nom">
+                    <h:outputText value="#{eleve.nom}" />
+                </p:column>
+                <p:column headerText="Prénom">
+                    <h:outputText value="#{eleve.prenom}" />
+                </p:column>
+                <p:column headerText="Date de Naissance">
+                    <h:outputText value="#{eleve.dateNaissance}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <!-- Ajoutez d'autres colonnes pour afficher plus de détails si nécessaire -->
+            </p:dataTable>
+        </h:panelGroup>
+
+    </h:form>
+</h:body>
+</html>

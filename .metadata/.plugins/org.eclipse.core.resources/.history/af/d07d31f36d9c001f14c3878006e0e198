@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Inscription</title>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css" />
+    <style>
+        /* Mise en forme générale */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://source.unsplash.com/random/1920x1080') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+
+        /* En-tête */
+        header {
+            background-color: rgba(0, 123, 255, 0.8);
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 1.8em;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        header h2 {
+            font-size: 1.6em;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        header h2 i {
+            margin-right: 10px;
+            font-size: 1.4em;
+        }
+
+        /* Conteneur de panneau */
+        .panel {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+        }
+
+        .panel h3 {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+            font-size: 1.4em;
+        }
+
+        /* Formulaire */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        input, select, .calendar {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .submit-button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <h2>
+            <i class="pi pi-user-plus"></i> Inscription
+        </h2>
+    </header>
+
+    <!-- Formulaire principal -->
+    <div class="panel">
+        <h3>Informations Élève</h3>
+        <form>
+            <div class="form-grid">
+                <label for="nom">Nom :</label>
+                <input id="nom" type="text" required="required" />
+
+                <label for="prenom">Prénom :</label>
+                <input id="prenom" type="text" required="required" />
+
+                <label for="email">Email :</label>
+                <input id="email" type="email" required="required" />
+
+                <label for="adresse">Adresse :</label>
+                <input id="adresse" type="text" required="required" />
+
+                <label for="telephone">Téléphone :</label>
+                <input id="telephone" type="tel" required="required" />
+
+                <label for="login">Login :</label>
+                <input id="login" type="text" required="required" />
+
+                <label for="password">Mot de passe :</label>
+                <input id="password" type="password" required="required" />
+
+                <label for="datenaissance">Date de naissance :</label>
+                <input id="datenaissance" type="date" required="required" />
+
+                <label for="classes">Classe :</label>
+                <select id="classes" required="required">
+                    <option value="">Sélectionner une classe</option>
+                    <!-- Ajoutez ici les options de classes dynamiquement -->
+                </select>
+            </div>
+
+            <!-- Bouton de soumission -->
+            <button type="submit" class="submit-button">Soumettre</button>
+        </form>
+    </div>
+
+    <!-- Panel pour les informations du tuteur -->
+    <div class="panel">
+        <h3>Informations Tuteur</h3>
+        <form>
+            <div class="form-grid">
+                <label for="nomTuteur">Nom :</label>
+                <input id="nomTuteur" type="text" required="required" />
+
+                <label for="prenomTuteur">Prénom :</label>
+                <input id="prenomTuteur" type="text" required="required" />
+
+                <label for="emailTuteur">Email :</label>
+                <input id="emailTuteur" type="email" required="required" />
+
+                <label for="adresseTuteur">Adresse :</label>
+                <input id="adresseTuteur" type="text" required="required" />
+
+                <label for="telephoneTuteur">Téléphone :</label>
+                <input id="telephoneTuteur" type="tel" required="required" />
+
+                <label for="loginTuteur">Login :</label>
+                <input id="loginTuteur" type="text" />
+
+                <label for="passwordTuteur">Mot de passe :</label>
+                <input id="passwordTuteur" type="password" />
+
+                <label for="datenaissanceTuteur">Date de naissance :</label>
+                <input id="datenaissanceTuteur" type="date" />
+
+                <label for="relation">Relation :</label>
+                <select id="relation" required="required">
+                    <option value="">Sélectionner une relation</option>
+                    <option value="Père">Père</option>
+                    <option value="Mère">Mère</option>
+                    <option value="Oncle">Oncle</option>
+                    <option value="Tante">Tante</option>
+                    <option value="Frère">Frère</option>
+                    <option value="Sœur">Sœur</option>
+                    <option value="Autre">Autre</option>
+                </select>
+            </div>
+
+            <!-- Bouton de soumission -->
+            <button type="submit" class="submit-button">Soumettre</button>
+        </form>
+    </div>
+</body>
+</html>

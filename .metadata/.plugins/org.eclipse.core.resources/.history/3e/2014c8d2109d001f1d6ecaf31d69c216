@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Person List</title>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css" />
+</h:head>
+<f:metadata>
+	<f:viewAction action="#{evaluationEleveBean.listerAssEleEval}" />
+</f:metadata> 
+<h:body>
+    <h:form id="form">
+        <p:messages autoUpdate="true" />
+        
+        <p:panel header="Liste des Évaluations">
+            <p:dataTable value="#{evaluationEleveBean.assoEleveEvaluations}" var="e" editable="true">
+                <p:column headerText="Nom">
+                    <h:outputText value="#{e.eleve.personne.nom}" />
+                </p:column>
+
+                <p:column headerText="Prénom">
+                    <h:outputText value="#{e.eleve.personne.prenom}" />
+                </p:column>
+
+                <p:column headerText="Note">
+                    <p:inputText value="#{e.note}" style="width:50px" />
+                </p:column>
+
+                <p:column headerText="Actions">
+                    <!-- Ajoutez ici des actions comme supprimer ou annuler -->
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+
+        <p:commandButton value="Sauvegarder" action="#{evaluationEleveBean.sauvegarderNote}" update="@form" />
+    </h:form>
+</h:body>
+
+</html>

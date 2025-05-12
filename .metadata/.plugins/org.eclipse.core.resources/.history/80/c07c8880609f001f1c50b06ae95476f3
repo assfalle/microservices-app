@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Détails de l'élève</title>
+    <h:outputStylesheet name="styles.css" />
+    <h:outputStylesheet library="primeicons" name="primeicons.css" />
+</h:head>
+
+<h:body>
+    <!-- Header avec titre et icônes de navigation -->
+    <header style="background-color: #4CAF50; padding: 10px; color: white; display: flex; align-items: center; justify-content: space-between;">
+        <h2 style="margin: 0; display: flex; align-items: center;">
+            <i class="pi pi-info-circle" style="font-size: 1.5em; margin-right: 10px;"></i>
+            Détails de l'élève
+        </h2>
+        <div>
+            <p:commandButton icon="pi pi-home" value="Accueil" action="tuteur_home?faces-redirect=true" style="margin-right: 10px; background: transparent; color: white; border: none;" />
+            <p:commandButton icon="pi pi-sign-out" value="Déconnexion" action="#{tuteurBean.logout}" style="background: transparent; color: white; border: none;" />
+        </div>
+    </header>
+
+    <!-- Contenu principal -->
+    <h:form id="eleveDetailsForm" style="margin: 20px;">
+        <section style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; background-color: #f9f9f9; margin-bottom: 20px;">
+            <h3 style="color: #333;">Informations sur l'élève</h3>
+            <p><strong>Nom de l'élève :</strong> #{sessionScope.selectedEleve.personne.nom}</p>
+            <p><strong>Prénom de l'élève :</strong> #{sessionScope.selectedEleve.personne.prenom}</p>
+            <p><strong>Nombre d'absences :</strong> #{sessionScope.selectedEleve.nbAbsences}</p>
+        </section>
+
+        <!-- Section d'informations supplémentaires sur l'élève -->
+        <section style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; background-color: #f9f9f9;">
+            <h3 style="color: #333;">Statistiques</h3>
+            <p:panelGrid columns="2" styleClass="custom-panelgrid" style="margin-top: 20px;">
+                <p:panel header="Nombre d'absences" styleClass="custom-panel" style="text-align: center;">
+                    <h:outputText value="#{sessionScope.selectedEleve.nbAbsences}" style="font-size: 24px; color: #ff0000;" />
+                </p:panel>
+                <p:panel header="Moyenne générale" styleClass="custom-panel" style="text-align: center;">
+                    <h:outputText value="15.4" style="font-size: 24px; color: #28a745;" />
+                </p:panel>
+            </p:panelGrid>
+        </section>
+
+        <!-- Retour au tableau de bord -->
+        <p:commandButton value="Retour" icon="pi pi-arrow-left" action="tuteur_home?faces-redirect=true" style="width: 100%; margin-top: 20px;" />
+    </h:form>
+</h:body>
+</html>

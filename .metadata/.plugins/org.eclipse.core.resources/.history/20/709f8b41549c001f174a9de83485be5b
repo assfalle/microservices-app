@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Recherche d'élèves</title>
+</h:head>
+<h:body>
+	<h:form>
+		<h:panelGrid columns="2">
+			<h:outputLabel value="Nom : " />
+			<p:inputText value="#{eleveBean.nom}" />
+
+			<h:outputLabel value="Prénom : " />
+			<p:inputText value="#{eleveBean.prenom}" />
+		</h:panelGrid>
+
+		<p:commandButton value="Rechercher"
+			action="#{eleveBean.rechercherEleve}" update="elevesTable" />
+
+		<!-- Tableau des résultats -->
+		<p:dataTable id="elevesTable" value="#{eleveBean.eleveListe}"
+			var="eleve" style="width:100%; margin-top:20px;">
+			<p:column headerText="Nom">
+				<h:outputText value="#{eleve.personne.nom}" />
+			</p:column>
+			<p:column headerText="Prénom">
+				<h:outputText value="#{eleve.personne.prenom}" />
+			</p:column>
+			<p:column headerText="Adresse">
+				<h:outputText value="#{eleve.personne.adresse}" />
+			</p:column>
+			
+			<p:column headerText="Date de Naissance">
+				<h:outputText value="#{eleve.personne.datenaissance}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Action">
+				<p:button style="width:100%" value="Detail" outcome="detailEleve">
+					<f:param name="code" value="#{eleve.idEleve}" />
+				</p:button>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

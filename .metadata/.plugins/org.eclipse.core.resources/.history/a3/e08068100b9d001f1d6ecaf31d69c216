@@ -1,0 +1,56 @@
+<h:form id="form">
+    <p:panel header="Rechercher des évaluations" styleClass="custom-panel">
+        <h:panelGrid columns="2" rendered="#{sessionBean.role ne 'ELEVE'}">
+            <h:outputLabel value="Nom de la Classe : " />
+            <p:selectOneMenu value="#{evaluationBean.nomClasse}">
+                <f:selectItem itemLabel="Sélectionner une classe" itemValue="" />
+                <f:selectItem itemLabel="2nd" itemValue="2nd" />
+                <f:selectItem itemLabel="1ère" itemValue="1ère" />
+                <f:selectItem itemLabel="Terminale" itemValue="Terminale" />
+                <!-- Ajoutez plus de classes ici si nécessaire -->
+            </p:selectOneMenu>
+        </h:panelGrid>
+
+        <p:commandButton value="Rechercher"
+                         action="#{evaluationBean.listerAssEleEval}"
+                         update="form"
+                         rendered="#{sessionBean.role ne 'ELEVE'}"
+                         styleClass="custom-button" />
+    </p:panel>
+
+    <!-- Liste des évaluations -->
+    <p:panel header="Liste des Évaluations" styleClass="custom-panel">
+        <p:dataTable id="evalTable" value="#{evaluationBean.assoEleveEvaluations}"
+                     var="eval" style="margin-top: 20px;" rows="10" paginator="true">
+
+            <p:column headerText="Cours">
+                <h:outputText value="#{eval.cours.matiere}" />
+            </p:column>
+            <p:column headerText="Type">
+                <h:outputText value="#{eval.type}" />
+            </p:column>
+            <p:column headerText="Date">
+                <h:outputText value="#{eval.date}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Heure de début">
+                <h:outputText value="#{eval.hdebut}">
+                    <f:convertDateTime pattern="HH:mm" />
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Heure de fin">
+                <h:outputText value="#{eval.hfin}">
+                    <f:convertDateTime pattern="HH:mm" />
+                </h:outputText>
+            </p:column>
+
+            <!-- Nouvelle colonne pour le bouton Attribuer Note -->
+            <p:column headerText="Attribuer Note">
+                <p:commandButton value="Attribuer Note"
+                                 action="#{evaluationEleveBean.setEvaluationId(eval.idEvaluation)}"
+                                 styleClass="custom-button" />
+            </p:column>
+        </p:dataTable>
+    </p:panel>
+</h:form>

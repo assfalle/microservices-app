@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accueil - École</title>
+    <style>
+        /* Styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f5f5dc;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .header h2 {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .header h2 i {
+            margin-right: 10px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav .p-button {
+            background: transparent;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Nouveau header -->
+    <header class="header">
+        <h2>
+            <i class="pi pi-user"></i>
+            Tableau de bord Élève
+        </h2>
+        <div class="nav">
+            <p:commandButton icon="pi pi-home" value="Accueil" style="background: transparent; color: white; border: none;" />
+            <p:commandButton icon="pi pi-bell" value="Notifications" style="background: transparent; color: white; border: none;" />
+            <p:commandButton icon="pi pi-sign-out" value="Déconnexion" action="#{portalBean.logout}" style="background: transparent; color: white; border: none;" />
+            <!-- Boutons Connexion et Inscription en icônes -->
+            <h:button outcome="connexion.xhtml" styleClass="p-button" icon="pi pi-sign-in" title="Connexion" />
+            <h:button outcome="choixInscription.xhtml" styleClass="p-button" icon="pi pi-user-plus" title="Inscription" />
+        </div>
+    </header>
+
+    <!-- Section principale avec des images défilantes -->
+    <section class="carousel">
+        <div class="carousel-slide">
+            <h:graphicImage library="images" name="education.jfif" alt="Image de l'école 1" />
+            <h:graphicImage library="images" name="ministere.jfif" alt="Image de l'école 2" />
+            <h:graphicImage library="images" name="niit.jfif" alt="Image de l'école 3" />
+            <h:graphicImage library="images" name="cours.jpg" alt="Image de l'école 4" />        
+            <h:graphicImage library="images" name="school.png" alt="Image de l'école 5" />        
+        </div>
+    </section>
+
+    <!-- Section de description de l'école -->
+    <section class="description">
+        <h2>Bienvenue à notre École</h2>
+        <p>Notre école s'engage à offrir une éducation de qualité...</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 École. Tous droits réservés.</p>
+        <p>Contactez-nous : info@ecole.sn</p>
+    </footer>
+
+    <!-- JavaScript pour les animations du carousel -->
+    <script>
+        const carouselSlide = document.querySelector('.carousel-slide');
+        const images = document.querySelectorAll('.carousel-slide img');
+
+        let counter = 0;
+        const size = images[0].clientWidth;
+
+        function startCarousel() {
+            counter++;
+            if (counter >= images.length) {
+                counter = 0;
+            }
+            carouselSlide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+        }
+
+        setInterval(startCarousel, 3000); // Change toutes les 3 secondes
+    </script>
+</body>
+</html>

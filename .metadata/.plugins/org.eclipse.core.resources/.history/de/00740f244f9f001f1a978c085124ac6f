@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Choix Inscription - École XYZ</title>
+   <style>
+    /* Styles de base */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: url('resources/images/bg1.avif'); /* Retirer la transparence */
+        background-size: cover;
+        background-position: center;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* Header et Footer */
+    .header, .footer {
+        background-color: #4CAF50;
+        color: #fff;
+        text-align: center;
+        padding: 15px;
+    }
+
+    /* Conteneur principal */
+    .main-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+        padding: 20px;
+    }
+
+    .container {
+        display: flex;
+        background-color: #fff; /* Retirer la transparence pour un fond opaque */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        max-width: 900px;
+        width: 100%;
+    }
+
+    /* Section formulaire */
+    .form-section {
+        flex: 1;
+        padding: 40px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        color: #34495e;
+        font-size: 1.8rem;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        margin: 15px 0;
+        padding: 15px;
+        font-size: 18px;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .btn:hover {
+        background-color: #2980b9;
+    }
+
+    /* Section image */
+    .image-section {
+        flex: 1;
+        background-image: url('resources/images/education.jfif');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .overlay {
+        /* Pas de superposition ici, tout est opaque */
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Footer */
+    .footer p {
+        font-size: 0.9rem;
+    }
+</style>
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>École XYZ</h1>
+    </header>
+
+    <!-- Conteneur principal avec formulaire et image -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Section formulaire -->
+            <div class="form-section">
+                <h2>Choisissez votre type d'inscription</h2>
+                <h:form>
+                    <h:commandButton value="Inscription Élève" action="inscription.xhtml" styleClass="btn" />
+                    <h:commandButton value="Inscription Parent" action="inscriptionParent.xhtml" styleClass="btn" />
+                    <h:commandButton value="Inscription Tuteur" action="inscriptionTuteur.xhtml" styleClass="btn" />
+                    <h:commandButton value="Inscription Professeur" action="inscriptionProfesseur.xhtml" styleClass="btn" />
+                    <h:commandButton value="Inscription Personnel" action="inscriptionPersonnel.xhtml" styleClass="btn" />
+                </h:form>
+            </div>
+
+            <!-- Section image -->
+            <div class="image-section">
+                <div class="overlay"></div> <!-- Overlay pour lisibilité -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 École XYZ. Tous droits réservés.</p>
+        <p>Contactez-nous : info@ecole.xyz</p>
+    </footer>
+</body>
+</html>

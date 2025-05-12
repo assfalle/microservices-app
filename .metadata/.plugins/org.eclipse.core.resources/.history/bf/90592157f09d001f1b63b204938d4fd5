@@ -1,0 +1,133 @@
+package bean;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
+import entitee.AssoEleveEvaluation;
+import entitee.AssoEleveEvaluationHome;
+import entitee.Classes;
+import entitee.ClassesHome;
+import entitee.Cours;
+import entitee.CoursHome;
+import entitee.Eleve;
+import entitee.Evaluation;
+import entitee.EvaluationHome;
+import metier.Operation;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
+
+@ManagedBean
+@SessionScoped
+public class EvaluationBean {
+
+    private Evaluation evaluation = new Evaluation();
+    private int selectedCoursId;
+    private int selectedClasseId;
+    private int profId;  // Ajout de l'ID du professeur
+    private List<Classes> classesList = new ArrayList<>();
+    private List<Cours> coursList = new ArrayList<>();
+    private List<Evaluation> evaluations = new ArrayList<>();
+    private Operation op = new Operation();
+    private CoursHome coursHome = new CoursHome();
+    private ClassesHome classesHome = new ClassesHome();
+    private EvaluationHome evaluationHome = new EvaluationHome();
+    private AssoEleveEvaluationHome assoEleveEvaluationHome = new AssoEleveEvaluationHome();
+
+    @PostConstruct
+    private void init() {
+        try {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+
+            // Récupération de l'ID du professeur depuis la session
+            this.profId = (int) session.getAttribute("profId");
+
+            // Charger les cours en fonction de la matière et les classes disponibles
+            String matiereEnseignee = (String) session.getAttribute("matiere");
+            coursList = op.listeCours().stream()
+                    .filter(cours -> cours.getMatiere().equals(matiereEnseignee))
+                    .collect(Collectors.toList());
+            classesList = op.listeClasse();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String saveEvaluation() {
+        try {
+            cours = coursHome.findById(selectedCoursId);
+            classes = classesHome.findById(selectedClasseId);
+            if (cours == null || classes == null) {
+                return "erreur";
+            }
+            evaluation.setClasse(classes);
+            evaluation.setCours(cours);
+            evaluation.setProfId(profId);  // Associer l'ID du professeur à l'évaluation
+
+            evaluationHome.persist(evaluation);
+
+            // Associer chaque élève de la classe avec l'évaluation
+            List<Eleve> eleves = op.listeEleveClasse(classes.getNom());
+            for (Eleve eleve : eleves) {
+                AssoEleveEvaluation assoEleveEvaluation = new AssoEleveEvaluation();
+                assoEleveEvaluation.setEvaluation(evaluation);
+                assoEleveEvaluation.setEleve(eleve);
+                assoEleveEvaluation.setNote(-1f);
+                assoEleveEvaluationHome.persist(assoEleveEvaluation);
+            }
+
+            return "confirmation";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "erreur";
+        }
+    }
+
+    // Getters and Setters
+
+    public Evaluation getEvaluation() {
+        return evaluation;
+    }
+
+    public void setEvaluation(Evaluation evaluation) {
+        this.evaluation = evaluation;
+    }
+
+    public int getSelectedCoursId() {
+        return selectedCoursId;
+    }
+
+    public void setSelectedCoursId(int selectedCoursId) {
+        this.selectedCoursId = selectedCoursId;
+    }
+
+    public int getSelectedClasseId() {
+        return selectedClasseId;
+    }
+
+    public void setSelectedClasseId(int selectedClasseId) {
+        this.selectedClasseId = selectedClasseId;
+    }
+
+    public int getProfId() {
+        return profId;
+    }
+
+    public void setProfId(int profId) {
+        this.profId = profId;
+    }
+
+    public List<Classes> getClassesList() {
+        return classesList;
+    }
+
+    public List<Cours> getCoursList() {
+        return coursList;
+    }
+}

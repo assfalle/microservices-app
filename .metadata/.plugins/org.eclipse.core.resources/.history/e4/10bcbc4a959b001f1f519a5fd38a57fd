@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Accueil Tuteur</title>
+    <h:outputStylesheet name="styles.css" />
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:panel header="Tableau de bord du Tuteur" style="text-align:center;">
+            <h2>Bienvenue, #{sessionScope.tuteur.personne.nom}</h2>
+            <p>Voici la liste de vos élèves :</p>
+
+            <p:dataTable var="eleve" value="#{tuteurBean.eleves}" style="width:100%">
+                <p:column headerText="Nom de l'élève">
+                    <h:outputText value="#{eleve.personne.nom}" />
+                </p:column>
+                <p:column headerText="Action">
+                    <p:commandButton value="Voir Détails" action="#{tuteurBean.afficherInfoEleve(eleve)}"
+                                     update=":formDetails"
+                                     styleClass="custom-button" />
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+    </h:form>
+
+    <!-- Formulaire pour afficher les détails de l'élève -->
+    <h:form id="formDetails">
+        <p:panel header="Détails de l'élève" rendered="#{not empty tuteurBean.selectedEleve}">
+            <h2>Informations de #{tuteurBean.selectedEleve.personne.nom}</h2>
+            <!-- Ajoutez ici les informations de l'élève que vous souhaitez afficher -->
+            <h:outputText value="Absences : #{tuteurBean.selectedEleve.absences.size()}" />
+        </p:panel>
+    </h:form>
+</h:body>
+</html>

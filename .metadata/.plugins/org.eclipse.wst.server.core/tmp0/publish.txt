@@ -1,0 +1,3 @@
+#Tomcat publish data
+#Sun Nov 10 22:54:07 GMT 2024
+org.eclipse.jst.jee.server\:/binary\:C\:\\Users\\Modienne\ GUISSE\\.m2\\repository\\org\\primefaces\\primefaces\\13.0.4\\primefaces-13.0.4.jar=WEB-INF/lib/primefaces-13.0.4.jar

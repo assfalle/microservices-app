@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Tableau de bord Tuteur</title>
+    <h:outputStylesheet name="styles.css" />
+</h:head>
+
+<h:body>
+    <h:form id="tuteurForm">
+        <h3>Informations du Tuteur</h3>
+        <h:outputText value="Nom : #{tuteurBean.tuteur.personne.nom}" />
+        <br />
+        <h:outputText value="Email : #{tuteurBean.tuteur.personne.email}" />
+        
+        <h3>Élèves</h3>
+        <p:selectOneMenu id="eleveSelect" value="#{tuteurBean.selectedEleve}">
+            <f:selectItem itemLabel="Sélectionnez un élève" itemValue="" />
+            <f:selectItems value="#{tuteurBean.eleves}" var="eleve" itemValue="#{eleve}" itemLabel="#{eleve.personne.nom}" />
+        </p:selectOneMenu>
+        
+        <p:commandButton value="Voir détails de l'élève" action="#{tuteurBean.displayEleveDetails}" update=":tuteurForm" />
+
+        <!-- Section pour afficher les détails de l'élève -->
+        <p:outputPanel id="eleveDetailsPanel" rendered="#{not empty tuteurBean.selectedEleve}">
+            <p:panel header="Détails de l'Élève" styleClass="custom-panel">
+                <p:panelGrid columns="2" styleClass="custom-panelgrid">
+                    <p:panel header="Nom" styleClass="custom-panel" style="text-align:center;">
+                        <h:outputText value="#{tuteurBean.selectedEleve.personne.nom}" />
+                    </p:panel>
+                    <p:panel header="Email" styleClass="custom-panel" style="text-align:center;">
+                        <h:outputText value="#{tuteurBean.selectedEleve.personne.email}" />
+                    </p:panel>
+                    <p:panel header="Nombre d'absences" styleClass="custom-panel" style="text-align:center;">
+                        <h:outputText value="#{tuteurBean.selectedEleve.nombreAbsences}" />
+                    </p:panel>
+                   
+                </p:panelGrid>
+            </p:panel>
+        </p:outputPanel>
+    </h:form>
+</h:body>
+</html>

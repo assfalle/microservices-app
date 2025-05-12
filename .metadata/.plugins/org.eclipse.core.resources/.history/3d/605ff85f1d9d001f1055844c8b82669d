@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Ajouter Consultation Infirmerie</title>
+</h:head>
+<f:metadata>
+    <f:viewParam name="code3" value="#{infirmerieBean.eleveId}" />
+</f:metadata>
+
+<h:body>
+    <h:form>
+        
+	<p:panel header="connexion" style="width: 500px;margin:  150px auto 0;">
+        <!-- Formulaire pour ajouter une nouvelle consultation -->
+        <p:panelGrid columns="1" styleClass="add-infirmerie-form">
+
+            <h:outputLabel for="dateVisite" value="Date de la visite :" />
+            <p:calendar id="dateVisite" value="#{infirmerieBean.infirmerie.dateVisite}" pattern="dd/MM/yyyy" showButtonPanel="true" />
+
+            <h:outputLabel for="motifVisite" value="Motif de la visite :" />
+            <p:inputText id="motifVisite" value="#{infirmerieBean.infirmerie.motifvisite}" />
+
+            <h:outputLabel for="diagnostic" value="Diagnostic :" />
+            <p:inputTextarea id="diagnostic" value="#{infirmerieBean.infirmerie.diagnostic}" rows="3" cols="40" />
+
+            <h:outputLabel for="medicaments" value="Médicaments administrés :" />
+            <p:inputTextarea id="medicaments" value="#{infirmerieBean.infirmerie.medicamentsAdministres}" rows="3" cols="40" />
+
+            <!-- Sélection d'élèves -->
+
+        <!-- Bouton de soumission -->
+        <p:commandButton value="Ajouter Consultation" action="#{infirmerieBean.ajouterConsultation}" update="messages" />
+
+        <!-- Messages de validation / erreur -->
+        <p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" />
+        </p:panelGrid>
+        </p:panel>
+    </h:form>
+</h:body>
+
+</html>

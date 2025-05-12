@@ -1,0 +1,83 @@
+package bean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+
+import entitee.AssoEleveEvaluation;
+import entitee.AssoEleveEvaluationHome;
+import metier.Operation;
+
+@ManagedBean
+public class EvaluationEleveBean {
+	
+	AssoEleveEvaluation eleveEvaluation=new AssoEleveEvaluation();
+
+	public AssoEleveEvaluation getEleveEvaluation() {
+		return eleveEvaluation;
+	}
+
+	public void setEleveEvaluation(AssoEleveEvaluation eleveEvaluation) {
+		this.eleveEvaluation = eleveEvaluation;
+	}
+	
+	List<AssoEleveEvaluation> assoEleveEvaluations=new ArrayList<AssoEleveEvaluation>();
+	Operation operation=new Operation();
+	
+	String nomClasse;
+	
+	
+	@PostConstruct
+	public void init()
+	{
+		assoEleveEvaluations=operation.listeEleveEvaluation("1 er");
+		
+	}
+	
+	
+	public void listerAssEleEval()
+	{
+		assoEleveEvaluations=operation.listeEleveEvaluation("1 er");
+
+	}
+	AssoEleveEvaluationHome home=new AssoEleveEvaluationHome();
+	public void sauvegarderNote() {
+	    // Essayez de sauvegarder toutes les modifications
+		System.out.println(assoEleveEvaluations.size());
+	    try {
+	        for (AssoEleveEvaluation assoEleveEvaluation : assoEleveEvaluations) {
+	            home.merge(assoEleveEvaluation); // Enregistrer les changements
+	        }
+
+	        // Ajouter un message de confirmation à l'utilisateur
+	       // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Notes sauvegardées avec succès !", null));
+	    } catch (Exception e) {
+	        // Gestion des erreurs
+	        //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur lors de la sauvegarde des notes", null));
+	        e.printStackTrace(); // Impression de la trace de l'erreur
+	    }
+	}
+
+
+	public List<AssoEleveEvaluation> getAssoEleveEvaluations() {
+		return assoEleveEvaluations;
+	}
+
+	public void setAssoEleveEvaluations(List<AssoEleveEvaluation> assoEleveEvaluations) {
+		this.assoEleveEvaluations = assoEleveEvaluations;
+	}
+
+	public String getNomClasse() {
+		return nomClasse;
+	}
+
+	public void setNomClasse(String nomClasse) {
+		this.nomClasse = nomClasse;
+	}
+	
+
+}

@@ -1,0 +1,124 @@
+package bean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.application.NavigationHandler;
+import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+
+import entitee.AssoEleveEvaluation;
+import entitee.AssoEleveEvaluationHome;
+import entitee.Evaluation;
+import metier.Operation;
+
+@ManagedBean
+public class EvaluationEleveBean {
+	
+	AssoEleveEvaluation eleveEvaluation=new AssoEleveEvaluation();
+	 private Long idEvaluation;
+	 
+	 
+
+	public AssoEleveEvaluation getEleveEvaluation() {
+		return eleveEvaluation;
+	}
+
+	public void setEleveEvaluation(AssoEleveEvaluation eleveEvaluation) {
+		this.eleveEvaluation = eleveEvaluation;
+	}
+	
+	List<AssoEleveEvaluation> assoEleveEvaluations=new ArrayList<AssoEleveEvaluation>();
+	Operation operation=new Operation();
+	
+	String nomClasse;
+	
+	
+	@PostConstruct
+    public void init() {
+        nomClasse = "CE2"; // Valeur par défaut
+        assoEleveEvaluations = operation.listeEleveEvaluation(nomClasse);
+    }
+
+    public void listerAssEleEval() {
+        if (nomClasse != null && !nomClasse.trim().isEmpty()) {
+            assoEleveEvaluations = operation.listeEleveEvaluation(nomClasse);
+        } else {
+            System.out.println("Le nom de la classe est vide ou nul.");
+        }
+    }
+
+	AssoEleveEvaluationHome home=new AssoEleveEvaluationHome();
+	// Méthode pour enregistrer les notes
+    public void sauvegarderNote() {
+        try {
+            for (AssoEleveEvaluation assoEleveEvaluation : assoEleveEvaluations) {
+                home.merge(assoEleveEvaluation); // Sauvegarder la note
+            }
+
+            // Message de succès
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Notes sauvegardées avec succès !", null));
+        } catch (Exception e) {
+            // Message d'erreur
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur lors de la sauvegarde des notes", null));
+            e.printStackTrace();
+        }
+    }
+
+
+	public List<AssoEleveEvaluation> getAssoEleveEvaluations() {
+		return assoEleveEvaluations;
+	}
+
+	public void setAssoEleveEvaluations(List<AssoEleveEvaluation> assoEleveEvaluations) {
+		this.assoEleveEvaluations = assoEleveEvaluations;
+	}
+
+	public String getNomClasse() {
+		return nomClasse;
+	}
+
+	public void setNomClasse(String nomClasse) {
+		this.nomClasse = nomClasse;
+	}
+	
+	// Méthode pour récupérer les élèves associés à l'évaluation
+    public void setEvaluationId(Long idEvaluation) {
+        this.idEvaluation = idEvaluation;
+        System.out.println("ID de l'évaluation sélectionnée : " + idEvaluation);
+
+        // Récupérer les élèves associés à l'évaluation
+        assoEleveEvaluations = operation.listeEleveEvaluationParEvaluation(idEvaluation);
+        
+        // Ouvrir la boîte de dialogue
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        NavigationHandler navigationHandler = facesContext.getApplication().getNavigationHandler();
+        navigationHandler.handleNavigation(facesContext, null, "ajouterNote?faces-redirect=true");
+    }
+    
+    public void openDialog(String eval) {
+        // Vérifier que l'évaluation passée en paramètre n'est pas nulle
+        if (eval == null) {
+            // Gérer le cas où l'évaluation est nulle, si nécessaire
+            return;
+        }
+
+        // Charger les informations des élèves associés à cette évaluation depuis le service
+        this.assoEleveEvaluations = operation.listeEleveEvaluation(eval);
+
+        // Vérifier si des informations ont été récupérées
+        if (assoEleveEvaluations == null || assoEleveEvaluations.isEmpty()) {
+            // Gérer le cas où il n'y a pas d'élèves associés à cette évaluation
+            // Vous pouvez afficher un message d'erreur ou un avertissement à l'utilisateur
+            return;
+        }
+
+        // A ce stade, les informations sont prêtes et la vue (JSF) gère l'affichage du dialogue
+        // Le dialogue se déclenchera dans la vue en appelant PF('dlgAttribuerNotes').show();
+    }
+
+	
+
+}

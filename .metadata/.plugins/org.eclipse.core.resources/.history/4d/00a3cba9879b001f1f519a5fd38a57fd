@@ -1,0 +1,42 @@
+package config;
+
+import java.util.List;
+
+public class MainApp {
+
+    public static void main(String[] args) {
+        Operation operation = new Operation();
+
+        // Exemple d'ID de tuteur que vous voulez rechercher
+        int tuteurId = 1; // Remplacez par un ID valide existant dans votre base de données
+
+        // Récupérer les informations du tuteur
+        Tuteur tuteur = operation.getTuteur(tuteurId);
+
+        if (tuteur != null) {
+            System.out.println("Informations du Tuteur :");
+            System.out.println("ID : " + tuteur.getId());
+            System.out.println("Nom : " + tuteur.getNom());
+            System.out.println("Prénom : " + tuteur.getPrenom());
+            System.out.println();
+
+            // Récupérer la liste des élèves associés au tuteur
+            List<Eleve> eleves = operation.getElevesParTuteur(tuteurId);
+
+            if (eleves != null && !eleves.isEmpty()) {
+                System.out.println("Liste des Élèves :");
+                for (Eleve eleve : eleves) {
+                    System.out.println("Nom : " + eleve.getNom());
+                    System.out.println("Prénom : " + eleve.getPrenom());
+                    System.out.println("Date de Naissance : " + eleve.getDateNaissance());
+                    System.out.println("---");
+                }
+            } else {
+                System.out.println("Aucun élève associé à ce tuteur.");
+            }
+        } else {
+            System.out.println("Tuteur non trouvé pour l'ID : " + tuteurId);
+        }
+    }
+}
+

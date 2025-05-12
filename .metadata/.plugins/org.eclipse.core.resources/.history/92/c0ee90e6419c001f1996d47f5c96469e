@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Tableau de bord Élève</title>
+    <style>
+        /* Styles généraux */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Style pour le panneau d'en-tête */
+        .custom-panel {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            text-align: center;
+            width: 80%;
+        }
+
+        /* Style pour l'image de profil */
+        .profile-image {
+            width: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            border: 3px solid #4facfe;
+        }
+
+        /* Panneau d'informations */
+        .info-panel {
+            background-color: #e9f7fe;
+            border: 1px solid #00aaff;
+            border-radius: 8px;
+            padding: 20px;
+            color: #007bff;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Grid pour les panneaux */
+        .custom-panelgrid {
+            width: 80%;
+            margin: 0 auto;
+            text-align: center;
+            gap: 20px;
+        }
+
+        /* Boutons de navigation */
+        .custom-button {
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            padding: 12px;
+            border-radius: 6px;
+            border: none;
+            margin: 10px 0;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+        }
+
+        .custom-button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form>
+        <!-- En-tête avec le nom de l'élève et une photo de profil -->
+        <p:panel header="Bienvenue sur votre tableau de bord" styleClass="custom-panel">
+            <h:graphicImage name="images/kame.jpg" alt="Photo de profil de l'élève" styleClass="profile-image"/>
+            <h2 style="color:#3b5998; margin-top:10px;">Bonjour, <h:outputText value="#{sessionScope.nomEleve}" /></h2>
+        </p:panel>
+
+        <!-- Informations rapides sur l'élève -->
+        <p:panelGrid columns="2" styleClass="custom-panelgrid" style="margin-top:30px;">
+            <p:panel header="Nombre d'absences" styleClass="info-panel">
+                <h:outputText value="#{sessionScope.nombreAbsences}" style="font-size:24px;" />
+            </p:panel>
+
+            <p:panel header="Moyenne générale" styleClass="info-panel">
+                <h:outputText value="15.4" style="font-size:24px; color:#28a745;" />
+            </p:panel>
+        </p:panelGrid>
+
+        <!-- Boutons de navigation -->
+        <p:panelGrid columns="3" styleClass="custom-panelgrid" style="margin-top:20px;">
+            <p:commandButton 
+                value="Mes évaluations" 
+                icon="pi pi-file" 
+                action="#{portalBean.naviguerVersEvaluations()}" 
+                styleClass="custom-button" 
+            />
+            <p:commandButton 
+                value="Mon emploi du temps" 
+                icon="pi pi-calendar"  
+                action="#{portalBean.naviguerVersEmploiDuTemps()}" 
+                styleClass="custom-button" 
+            />
+            <p:commandButton 
+                value="Mes résultats" 
+                icon="pi pi-chart-line" 
+                action="#" 
+                styleClass="custom-button" 
+            />
+        </p:panelGrid>
+    </h:form>
+</h:body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Portail Surveillant</title>
+    <h:outputStylesheet name="styles.css" />
+    <h:outputStylesheet library="primeicons" name="primeicons.css" />
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css" />
+</h:head>
+
+<h:body style="background-image: url('resources/images/bag3.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; background-color: rgba(0, 0, 0, 0.6); background-blend-mode: overlay;">
+    <!-- Header avec titre et icônes de navigation -->
+    <header style="background-color: #8B4513; padding: 15px; color: white; display: flex; align-items: center; justify-content: space-between;">
+        <h2 style="margin: 0; display: flex; align-items: center;">
+            <i class="pi pi-user" style="font-size: 1.5em; margin-right: 10px;"></i>
+            Tableau de bord Surveillant
+        </h2>
+        <div>
+            <p:commandButton icon="pi pi-home" value="Accueil" style="background-color: white; color: #8B4513; border: none; font-weight: bold; border-radius: 5px; padding: 10px;" action="bienvenue.xhtml" />
+            <p:commandButton icon="pi pi-bell" value="Notifications" style="background-color: white; color: #8B4513; border: none; font-weight: bold; border-radius: 5px; padding: 10px;" />
+            <p:commandButton icon="pi pi-sign-out" value="Déconnexion" style="background-color: white; color: #8B4513; border: none; font-weight: bold; border-radius: 5px; padding: 10px;" action="#{surveillantBean.logout}" />
+        </div>
+    </header>
+
+    <div class="p-d-flex p-jc-center p-mt-5">
+        <div class="portal-container" style="max-width: 850px; padding: 2rem; background-color: rgba(255, 255, 255, 0.9); border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+            <h1 class="portal-header" style="font-size: 2rem; color: black; text-align: center; margin-bottom: 2rem;">Portail Surveillant</h1>
+
+            <h:form id="portalForm">
+                <!-- Gestion des absences -->
+                <div class="section-title" style="font-size: 1.5rem; color: #8B4513; border-bottom: 2px solid #8B4513; padding-bottom: 0.5rem; margin-top: 1.5rem;">Gestion des absences</div>
+                <div class="button-group" style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 1rem;">
+                    <p:commandButton value="Gérer les absences" 
+                                     action="afficherEleve.xhtml" 
+                                     style="background-color: #8B4513; color: white; font-weight: bold; border-radius: 5px; padding: 10px; width: 100%;" icon="pi pi-user-edit" />
+                    <p:commandButton value="Rechercher élève" 
+                                     action="#{portalBean.tracerRole}" 
+                                     oncomplete="window.location='afficherEleve.xhtml'" 
+                                     style="background-color: #8B4513; color: white; font-weight: bold; border-radius: 5px; padding: 10px; width: 100%;" 
+                                     icon="pi pi-search" />
+                </div>
+
+                <!-- Gestion des cours et classes -->
+                <div class="section-title" style="font-size: 1.5rem; color: #8B4513; border-bottom: 2px solid #8B4513; padding-bottom: 0.5rem; margin-top: 1.5rem;">Gestion des cours et des classes</div>
+                <div class="button-group" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+                    <p:commandButton value="Programmer un cours" 
+                                     action="progCours.xhtml" 
+                                     style="background-color: #8B4513; color: white; font-weight: bold; border-radius: 5px; padding: 10px; width: 100%;" icon="pi pi-calendar-plus" />
+                    <p:commandButton value="Afficher emploi du temps" 
+                                     action="afficherEmploiDuTemps.xhtml" 
+                                     style="background-color: #8B4513; color: white; font-weight: bold; border-radius: 5px; padding: 10px; width: 100%;" icon="pi pi-calendar" />
+                    <p:commandButton value="Ajouter un cours" 
+                                     action="ajouterCours.xhtml" 
+                                     style="background-color: #8B4513; color: white; font-weight: bold; border-radius: 5px; padding: 10px; width: 100%;" icon="pi pi-book" />
+                    <p:commandButton value="Ajouter une classe" 
+                                     action="ajouterClasse.xhtml" 
+                                     style="background-color: #8B4513; color: white; font-weight: bold; border-radius: 5px; padding: 10px; width: 100%;" icon="pi pi-users" />
+                    <p:commandButton value="Information de classe" 
+                                     action="infosClasse.xhtml" 
+                                     style="background-color: #8B4513; color: white; font-weight: bold; border-radius: 5px; padding: 10px; width: 100%;" icon="pi pi-info-circle" />
+                    <p:commandButton value="Élève par classe" 
+                                     action="#{portalBean.tracerRole}" 
+                                     oncomplete="window.location='eleveClasse.xhtml'" 
+                                     style="background-color: #8B4513; color: white; font-weight: bold; border-radius: 5px; padding: 10px; width: 100%;" icon="pi pi-users" />
+                    <p:commandButton value="Organiser activité" 
+                                     action="organiserActivite.xhtml" 
+                                     style="background-color: #8B4513; color: white; font-weight: bold; border-radius: 5px; padding: 10px; width: 100%;" icon="pi pi-calendar-plus" />
+                </div>
+
+                <!-- Section pour d’autres fonctionnalités futures -->
+                <div class="section-title" style="font-size: 1.5rem; color: #8B4513; border-bottom: 2px solid #8B4513; padding-bottom: 0.5rem; margin-top: 1.5rem;">Fonctionnalités futures</div>
+                <div class="button-group" style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <p:commandButton value="Fonctionnalité A" style="background-color: #8B4513; color: white; font-weight: bold; border-radius: 5px; padding: 10px; width: 100%;" icon="pi pi-cog" disabled="true" />
+                    <p:commandButton value="Fonctionnalité B" style="background-color: #8B4513; color: white; font-weight: bold; border-radius: 5px; padding: 10px; width: 100%;" icon="pi pi-cog" disabled="true" />
+                    <p:commandButton value="Fonctionnalité C" style="background-color: #8B4513; color: white; font-weight: bold; border-radius: 5px; padding: 10px; width: 100%;" icon="pi pi-cog" disabled="true" />
+                </div>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>

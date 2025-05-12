@@ -1,0 +1,145 @@
+package bean;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import config.EmailUtil;
+import config.PdfUtil;
+import entitee.Classes;
+import entitee.ClassesHome;
+import entitee.Eleve;
+import entitee.EleveHome;
+import entitee.Personne;
+import entitee.PersonneHome;
+import entitee.Role;
+import entitee.Tuteur;
+import entitee.TuteurHome;
+import metier.Operation;
+
+@ManagedBean
+@RequestScoped
+public class EleveBean {
+
+    private int selectedClasseId;
+    private List<Classes> classesList = new ArrayList<>();
+    private List<Eleve> eleveListe;
+
+    private Eleve e = new Eleve();
+    private Personne p = new Personne();
+    private Tuteur tuteur = new Tuteur();  // Ajout du tuteur
+
+    private Classes classes = new Classes();
+    private ClassesHome classesHome = new ClassesHome();
+    private PersonneHome ph = new PersonneHome();
+    private EleveHome eh = new EleveHome();
+    private TuteurHome th = new TuteurHome();  // Gestionnaire du tuteur
+    private Role role = new Role();
+    private Operation op = new Operation();
+
+    @PostConstruct
+    private void init() {
+        try {
+            String role = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("role");
+            if ("PRINCIPAL".equals(role)) {
+                classesList = op.listeClasseByCycle("moyen");
+            } else if ("DIRECTEUR".equals(role)) {
+                classesList = op.listeClasseByCycle("elementaire");
+            } else {
+                classesList = op.listeClasse();
+            }
+
+            if (!classesList.isEmpty()) {
+                eleveListe = op.listeEleveClasse(classesList.get(0).getNom());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String inscrire() {
+        try {
+            // Hachage du mot de passe
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode(p.getPassword());
+            p.setPassword(hashedPassword);
+
+            // Associer l'élève à la classe
+            classes = classesHome.findById(selectedClasseId);
+            e.setClasses(classes);
+            role = op.getRole("ELEVE");
+            p.setRole(role);
+
+            // Enregistrer la personne (élève)
+            ph.persist(p);
+            e.setPersonne(p);
+            e.setNbAbsences(0);
+            eh.persist(e);
+
+            // Enregistrer le tuteur
+            tuteur.setPersonne(p);  // Utiliser la même personne que le tuteur
+            th.persist(tuteur);
+
+            // Envoyer un email et générer le PDF
+            String filePath = "D:\\Projets\\JEE\\mail_eleve.pdf";
+            String logoPath = "D:\\Projets\\JEE\\kame.jpg";
+            PdfUtil.createPdf(filePath, p, logoPath);
+            EmailUtil.sendEmailWithAttachment(p.getEmail(), "Inscription réussie", "Bonjour " + p.getPrenom(), filePath);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Inscription réussie, veuillez vous connecter."));
+            return "connexion?faces-redirect=true";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Erreur lors de l'inscription."));
+            return null;
+        }
+    }
+
+    // Getters et Setters
+
+    public Eleve getE() {
+        return e;
+    }
+
+    public void setE(Eleve e) {
+        this.e = e;
+    }
+
+    public Personne getP() {
+        return p;
+    }
+
+    public void setP(Personne p) {
+        this.p = p;
+    }
+
+    public Tuteur getTuteur() {
+        return tuteur;
+    }
+
+    public void setTuteur(Tuteur tuteur) {
+        this.tuteur = tuteur;
+    }
+
+    public List<Classes> getClassesList() {
+        return classesList;
+    }
+
+    public void setClassesList(List<Classes> classesList) {
+        this.classesList = classesList;
+    }
+
+    public int getSelectedClasseId() {
+        return selectedClasseId;
+    }
+
+    public void setSelectedClasseId(int selectedClasseId) {
+        this.selectedClasseId = selectedClasseId;
+    }
+}

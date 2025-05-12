@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Mon Application</title>
+    <style>
+        /* Styles CSS */
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin: 0;
+        }
+
+        .header p {
+            font-size: 18px;
+        }
+
+        .sections {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 40px 0;
+        }
+
+        .section {
+            width: 30%;
+            text-align: center;
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .section img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .button {
+            padding: 12px 24px;
+            margin: 0 10px;
+            color: #fff;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .button.signup {
+            background-color: #6e8efb;
+        }
+
+        .button.signup:hover {
+            background-color: #5a75d9;
+        }
+
+        .button.login {
+            background-color: #a777e3;
+        }
+
+        .button.login:hover {
+            background-color: #9167c8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Bienvenue sur Mon Application</h1>
+        <p>Gérez votre école avec facilité et efficacité.</p>
+    </div>
+
+    <div class="sections">
+        <div class="section">
+            <img src="path/to/your-image1.png" alt="Gestion des élèves">
+            <h3>Gestion des élèves</h3>
+            <p>Suivez et gérez facilement les informations des élèves.</p>
+        </div>
+        <div class="section">
+            <img src="path/to/your-image2.png" alt="Gestion des cours">
+            <h3>Gestion des cours</h3>
+            <p>Organisez les cours et planifiez les évaluations.</p>
+        </div>
+        <div class="section">
+            <img src="path/to/your-image3.png" alt="Suivi des évaluations">
+            <h3>Suivi des évaluations</h3>
+            <p>Analysez et suivez les performances des élèves.</p>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <a href="signup.html" class="button signup">S'inscrire</a>
+        <a href="login.html" class="button login">Se connecter</a>
+    </div>
+
+    <script>
+        // Animation JavaScript
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                    section.style.opacity = 1;
+                    section.style.transform = 'translateY(0)';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

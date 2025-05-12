@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Inscription</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header, footer {
+            width: 100%;
+            background-color: #000;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* Conteneur principal */
+        .main-container {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Conteneur du formulaire */
+        .form-container {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h3.ui-panel-title {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+            font-size: 18px;
+            margin-top: 0;
+        }
+
+        .ui-panelGrid {
+            margin-top: 15px;
+        }
+
+        .ui-panelGrid label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .ui-inputfield, .ui-calendar, .ui-selectonemenu {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .ui-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .ui-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Zone d'informations */
+        .info-container {
+            flex: 1;
+            background-color: #e0e0e0;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* Styles généraux */
+        .main-container div {
+            margin: 7px 0;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <header>
+        <h1>École XYZ - Formulaire d'Inscription</h1>
+    </header>
+
+    <div class="main-container">
+        <!-- Conteneur du formulaire -->
+        <div class="form-container">
+            <h:form>
+                <p:tabView>
+                    <p:tab title="Informations Élève">
+                        <p:panel header="Informations Élève">
+                            <p:messages />
+                            <div>
+                                <p:outputLabel value="Nom :" for="nom" />
+                                <p:inputText id="nom" value="#{eleveBean.p.nom}" required="true" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Prénom :" for="prenom" />
+                                <p:inputText id="prenom" value="#{eleveBean.p.prenom}" required="true" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Email :" for="email" />
+                                <p:inputText id="email" value="#{eleveBean.p.email}" required="true" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Adresse :" for="adresse" />
+                                <p:inputText id="adresse" value="#{eleveBean.p.adresse}" required="true" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Téléphone :" for="telephone" />
+                                <p:inputText id="telephone" value="#{eleveBean.p.telephone}" required="true" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Login :" for="login" />
+                                <p:inputText id="login" value="#{eleveBean.p.login}" required="true" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Mot de passe :" for="password" />
+                                <p:password id="password" value="#{eleveBean.p.password}" required="true" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Date de naissance :" for="datenaissance" />
+                                <p:calendar id="datenaissance" value="#{eleveBean.p.datenaissance}" pattern="dd/MM/yyyy" showButtonPanel="true" required="true" />
+                            </div>
+                            <p:outputLabel value="Classe :" for="classes" />
+                            <p:selectOneMenu id="classes" value="#{eleveBean.selectedClasseId}">
+                                <f:selectItems value="#{eleveBean.classesList}" var="classe" itemValue="#{classe.idclasse}" itemLabel="#{classe.nom}" />
+                            </p:selectOneMenu>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="Informations Tuteur">
+                        <p:panel header="Informations Tuteur">
+                            <div>
+                                <p:outputLabel value="Nom :" for="nomTuteur" />
+                                <p:inputText id="nomTuteur" value="#{eleveBean.personne.nom}" required="true" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Prénom :" for="prenomTuteur" />
+                                <p:inputText id="prenomTuteur" value="#{eleveBean.personne.prenom}" required="true" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Email :" for="emailTuteur" />
+                                <p:inputText id="emailTuteur" value="#{eleveBean.personne.email}" required="true" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Adresse :" for="adresseTuteur" />
+                                <p:inputText id="adresseTuteur" value="#{eleveBean.personne.adresse}" required="true" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Téléphone :" for="telephoneTuteur" />
+                                <p:inputText id="telephoneTuteur" value="#{eleveBean.personne.telephone}" required="true" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Login :" for="loginTuteur" />
+                                <p:inputText id="loginTuteur" value="#{eleveBean.personne.login}" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Mot de passe :" for="passwordTuteur" />
+                                <p:password id="passwordTuteur" value="#{eleveBean.personne.password}" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Date de naissance :" for="datenaissanceTuteur" />
+                                <p:calendar id="datenaissanceTuteur" value="#{eleveBean.personne.datenaissance}" pattern="dd/MM/yyyy" showButtonPanel="true" />
+                            </div>
+                            <div>
+                                <p:outputLabel value="Relation :" for="relation" />
+                                <p:selectOneMenu id="relation" value="#{eleveBean.tuteur.relation}" required="true">
+                                    <f:selectItem itemLabel="Sélectionner une relation" itemValue="" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Père" itemValue="Père" />
+                                    <f:selectItem itemLabel="Mère" itemValue="Mère" />
+                                    <f:selectItem itemLabel="Oncle" itemValue="Oncle" />
+                                    <f:selectItem itemLabel="Tante" itemValue="Tante" />
+                                    <f:selectItem itemLabel="Frère" itemValue="Frère" />
+                                    <f:selectItem itemLabel="Sœur" itemValue="Sœur" />
+                                    <f:selectItem itemLabel="Autre" itemValue="Autre" />
+                                </p:selectOneMenu>
+                            </div>
+                        </p:panel>
+                    </p:tab>
+                </p:tabView>
+                <p:commandButton value="Soumettre" action="#{eleveBean.inscrire}" update="@form" styleClass="ui-button" />
+            </h:form>
+        </div>
+
+        <!-- Zone d'information avec une image -->
+        <div class="info-container">            
+        <img src="resources/images/ministere.jfif" alt="Image d'accueil" style="max-width: 100%; border-radius: 8px;"/>
+        <p style="margin-top: 15px; font-size: 18px; color: #333;">
+            Bienvenue à l'École XYZ ! Nous sommes ravis de vous accueillir sur notre plateforme d'inscription.
+        </p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Contactez-nous : contact@ecolexyz.com | Téléphone : 01 23 45 67 89</p>
+    </footer>
+</h:body>
+</html>

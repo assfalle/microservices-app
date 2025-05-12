@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Person List</title>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+    <style>
+        body {
+            background-image: url('path/to/your/background-image.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: #333;
+        }
+        header, footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+        }
+        .form-container {
+            width: 500px;
+            margin: 150px auto 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .form-label {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .submit-button {
+            background-color: #007ad9;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <header>
+        <h1>Page de Connexion</h1>
+    </header>
+    
+    <h:form>
+        <p:panel header="Connexion" styleClass="form-container">
+            <p:messages/>
+            <h:panelGrid columns="2" styleClass="p-fluid">
+                <p:outputLabel value="Login:" styleClass="form-label"/>
+                <p:inputText value="#{personneBean.personne.login}"/>
+                
+                <p:outputLabel value="Mot de passe:" styleClass="form-label"/>
+                <p:password value="#{personneBean.personne.password}"/>
+                
+                <p:commandButton value="Soumettre" action="#{personneBean.connexion}" styleClass="submit-button"/>
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+    
+    <footer>
+        <p>© 2024 Tous droits réservés</p>
+    </footer>
+</h:body>
+</html>

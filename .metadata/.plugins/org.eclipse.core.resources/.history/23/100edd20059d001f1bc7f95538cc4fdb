@@ -1,0 +1,69 @@
+package bean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.application.NavigationHandler;
+import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+
+import entitee.AssoEleveEvaluation;
+import entitee.AssoEleveEvaluationHome;
+import metier.Operation;
+
+@ManagedBean
+public class EvaluationEleveBean {
+
+    private AssoEleveEvaluation eleveEvaluation = new AssoEleveEvaluation();
+    private Long idEvaluation;
+    private String nomClasse; // Champ pour le nom de la classe
+    private List<AssoEleveEvaluation> assoEleveEvaluations = new ArrayList<>();
+    private Operation operation = new Operation();
+    private AssoEleveEvaluationHome home = new AssoEleveEvaluationHome();
+
+    @PostConstruct
+    public void init() {
+        if (nomClasse != null && !nomClasse.isEmpty()) {
+            assoEleveEvaluations = operation.listeEleveEvaluation(nomClasse);
+        }
+    }
+
+    public void listerAssEleEval() {
+        if (nomClasse != null && !nomClasse.isEmpty()) {
+            assoEleveEvaluations = operation.listeEleveEvaluation(nomClasse);
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_WARN, "Veuillez sélectionner une classe.", null));
+        }
+    }
+
+    public void sauvegarderNote() {
+        try {
+            for (AssoEleveEvaluation assoEleveEvaluation : assoEleveEvaluations) {
+                home.merge(assoEleveEvaluation);
+            }
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Notes sauvegardées avec succès !", null));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur lors de la sauvegarde des notes", null));
+            e.printStackTrace();
+        }
+    }
+
+    // Getters et Setters
+    public AssoEleveEvaluation getEleveEvaluation() { return eleveEvaluation; }
+    public void setEleveEvaluation(AssoEleveEvaluation eleveEvaluation) { this.eleveEvaluation = eleveEvaluation; }
+    public List<AssoEleveEvaluation> getAssoEleveEvaluations() { return assoEleveEvaluations; }
+    public void setAssoEleveEvaluations(List<AssoEleveEvaluation> assoEleveEvaluations) { this.assoEleveEvaluations = assoEleveEvaluations; }
+    public String getNomClasse() { return nomClasse; }
+    public void setNomClasse(String nomClasse) { this.nomClasse = nomClasse; }
+    public void setEvaluationId(Long idEvaluation) {
+        this.idEvaluation = idEvaluation;
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        NavigationHandler navigationHandler = facesContext.getApplication().getNavigationHandler();
+        navigationHandler.handleNavigation(facesContext, null, "ajouterNote?faces-redirect=true");
+    }
+}
